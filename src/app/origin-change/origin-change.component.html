@@ -1,0 +1,31 @@
+<app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>
+<div class="section-origins section-origins--my-products">
+    <div class="shipping-title">
+      <h3>Shipping addresses</h3>
+    </div>
+    <div class="no-origins" *ngIf="origins.length < 1">
+      <p>You don´t have any shipping address added</p>
+    </div>
+    <div class="origins-container" *ngIf="origins.length > 0">
+      <hr>
+      <div class="single-origin" *ngFor="let origin of origins; let i = index">
+        <div class="row row-origin">
+          <div class="col-md-10">
+            <div class="origin-header">
+              <p><strong>{{origin.address}}</strong></p>
+              <p>{{origin.state}}, {{origin.city}}</p>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="dropdown dropdown-address dropdown-input">
+                <!-- <input type="radio" class="" name="destiny"> -->
+                <input type="radio" id="destined" name="{{product.name}}_origin" [value]="origin.id" #destined="ngModel" [(ngModel)]="product.origin.id" *ngIf="i == 0">
+                <input type="radio" name="{{product.name}}_origin" [value]="origin.id" #destined="ngModel" [(ngModel)]="product.origin.id" *ngIf="i != 0">
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <label class="btn btn-primary" (click)="changeProductOrigin(product)">Change address</label>
+    </div>
+</div>

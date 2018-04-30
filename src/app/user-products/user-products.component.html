@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<div class="container-fluid container-fluid--my-products" *ngFor="let product of products; let i = index">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+        <!-- <a routerLink="/{{product.id}}" routerLinkActive="active"></a> -->
+        <button class="btn btn-danger btn--my-products" (click)="openModalDelete(product.id)">Delete product</button>
+        <button class="btn btn-primary btn--my-products" (click)="goToEditProduct(product.id)">Update product</button>
+        <button class="btn btn-secondary btn--my-products" (click)="goToProductBids(product.id)" *ngIf="product.is_auction">Product bids</button>
+      <h3 class="panel-title panel-title--my-products">{{product.name}}</h3>
+    </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="panel-body panel-body--user-products">
+            <label for="file{{product.id}}" *ngIf="!product.cover"><i class="fa fa-picture-o fa-size--user-products"></i></label>
+            <img [src]="product.cover.url" height="200" *ngIf="product.cover"> <br/>
+            <label for="file{{product.id}}" class="btn label-file"><i class="fa fa-folder"></i> Browser</label>
+            <input id="file{{product.id}}" type='file' #fileInput class="input-file" (change)="onSelectFile(product.id, $event, i)">
+            <app-modal-confirm [message]="textModalDelete" (doFunction)="doFunctione($event)" *ngIf="modalDelete"></app-modal-confirm>
+            <app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>
+            <!-- <label class="btn label-file" *ngIf="url[i]" (click)="uploadCoverPhoto(product.id, url[i])">Upload <i class="fa fa-upload"></i></label> -->
+            <!-- {{product.price | currency: 'COP '}} -->
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="panel-body">
+            <!-- Product information -->
+            <div class="product-label" *ngIf="product.is_auction">
+                <span>Auction</span>
+            </div>
+            <div class="product-label product-label--price">
+                <span class="product-price">{{product.price | currency: 'COP '}}</span>
+            </div>
+            <div class="product-label">
+                <span>{{product.category | titlecase}}</span>
+            </div>
+            <p><strong>Availability:</strong> In Stock</p>
+            <p><strong>Brand:</strong> E-SHOP</p>
+            <!-- {{product.description}} -->
+            <p><strong>Description:</strong> {{product.description}} </p>
+            <!-- {{product.shipping_description}} -->
+            <p><strong>Shipping description:</strong> {{product.shipping_description}} </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+            <app-origin-change [product]="product"></app-origin-change>
+        </div>
+        <div class="col-md-3 col-comments">
+          <app-user-products-comments
+          [productId]="product.id">
+          </app-user-products-comments>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>

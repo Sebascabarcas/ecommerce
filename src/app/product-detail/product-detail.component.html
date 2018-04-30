@@ -1,0 +1,197 @@
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!--  Product Details -->
+            <div class="product product-details clearfix">
+                <div class="col-md-6">
+                    <div id="product-main-view">
+                        <div class="product-view">
+                            <img src="{{product.cover.url}}" width="555" height="555" class="img-product" alt="" *ngIf="product.product_picture.length > 0">
+                        </div>
+                        <!-- <div class="product-view">
+                            <img [src]="product.product_picture[0].picture.url" width="555" height="555" class="img-product" alt="">
+                        </div> -->
+                        <div class="product-view" >
+                            <img [src]="product.product_picture[1].picture.url" width="555" height="555" class="img-product" alt="" *ngIf="product.product_picture.length > 1">
+                            <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 2">
+                        </div>
+                        <div class="product-view">
+                            <img [src]="product.product_picture[2].picture.url" width="555" height="555" class="img-product" alt=""  *ngIf="product.product_picture.length > 2">
+                            <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 3">
+                        </div>
+                        <div class="product-view">
+                            <img [src]="product.product_picture[3].picture.url" width="555" height="555" class="img-product" alt=""  *ngIf="product.product_picture.length > 3">
+                            <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 4">
+                        </div>
+                        <!-- <div class="product-view">
+                            <img [src]="" alt="">
+                        </div>
+                        <div class="product-view">
+                            <img [src]="" alt="">
+                        </div> -->
+                    </div>
+                    <div id="product-view">
+                        <div class="product-view">
+                            <img src="{{product.cover.url}}" alt="" *ngIf="product.product_picture.length > 0">
+                        </div>
+                        <div class="product-view">
+                                <img [src]="product.product_picture[1].picture.url" alt="" *ngIf="product.product_picture.length > 1">
+                                <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 2">
+                        </div>
+                        <div class="product-view">
+                                <img [src]="product.product_picture[2].picture.url" alt="" *ngIf="product.product_picture.length > 2">
+                                <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 3">
+                        </div>
+                        <div class="product-view">
+                                <img [src]="product.product_picture[3].picture.url" alt="" *ngIf="product.product_picture.length > 3">
+                                <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 4">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <div class="product-body">
+                        <div class="product-label" *ngIf="product.is_auction">
+                            <span class="sale">Auction</span>
+                        </div>
+                        <br>
+                        <div class="product-label">
+                            <span>{{product.category | titlecase}} {{product.product_picture.length}}</span>
+                        </div>
+                        <h2 class="product-name">{{product.name}}</h2>
+                        <h3 class="product-price">{{product.price | currency:'COP ':true:'1.0'}}</h3>
+                        <!-- <div>
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o empty"></i>
+                            </div>
+                            <a href="#">3 Review(s) / Add Review</a>
+                        </div> -->
+                        <p><strong>Availability:</strong> In Stock</p>
+                        <p><strong>Brand:</strong> E-SHOP</p>
+                        <p><strong>Description:</strong> {{product.description}}</p>
+                        <p><strong>Shipping description:</strong> {{product.shipping_description}}</p>
+                        <!-- <div class="product-options"> -->
+                            <!-- <ul class="size-option">
+                                <li><span class="text-uppercase">Size:</span></li>
+                                <li class="active"><a href="#">S</a></li>
+                                <li><a href="#">XL</a></li>
+                                <li><a href="#">SL</a></li>
+                            </ul> -->
+                            <!-- <ul class="color-option">
+                                <li><span class="text-uppercase">Color:</span></li>
+                                <li class="active"><a href="#" style="background-color:#475984;"></a></li>
+                                <li><a href="#" style="background-color:#8A2454;"></a></li>
+                                <li><a href="#" style="background-color:#BF6989;"></a></li>
+                                <li><a href="#" style="background-color:#9A54D8;"></a></li>
+                            </ul> -->
+                        <!-- </div> -->
+
+                        <div class="product-btns">
+                            <!-- <div class="qty-input">
+                                <span class="text-uppercase">QTY: </span>
+                                <input class="input" type="number">
+                            </div> -->
+                            <div class="qty-input" *ngIf="!product.is_auction && product.user.id != currentUserId">
+									<span class="text-uppercase">QTY: </span>
+									<input class="input" type="number" [(ngModel)]="qty" min="1" value="{{qty}}" >
+                                    <button class="primary-btn add-to-cart" (click)="addToCart(qty)" *ngIf="!product.is_auction"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                            </div>
+                            <!-- <br> -->
+                            <!-- <p><strong>Last bid: </strong>{{product.last_bid}} COP</p> -->
+                            <div class="product-label" *ngIf="product.is_auction">
+                                <strong>Last bid:</strong> 
+                                <span *ngIf="product.bids"> {{product.bids[product.bids.length- 1].bid | currency: 'COP '}}</span>
+                                <span *ngIf="!product.bids"> {{ product.price | currency: 'COP '}}</span>
+                            </div>
+                            <br>
+                            <div class="qty-input" *ngIf="product.is_auction && product.user.id != currentUserId ">
+                                <span class="text-uppercase">Ofert: </span>
+                                <input class="input" type="number" [(ngModel)]="bid" min="{{bid}}" value="{{bid}}" >
+                            </div>
+                            <button class="primary-btn add-to-cart" (click)="bidUp(bid)" *ngIf="product.is_auction && product.user.id != currentUserId"><i class="fa fa-money"></i> Bid Up</button>
+                            <!-- <div class="pull-right">
+                                <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                                <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+                                <button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="product-tab">
+                        <ul class="tab-nav">
+                            <li class="active"><a data-toggle="tab" href="#tab1">Reviews</a></li>
+                            <!-- <li><a data-toggle="tab" href="#tab1">Details</a></li> -->
+                            <!-- <li><a data-toggle="tab" href="#tab2">Reviews (3)</a></li> -->
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab1" class="tab-pane fade in active">
+
+                                <div class="row">
+                                    <div class="col-md-6 col-comments" *ngIf="comments.length > 0">
+                                        <div class="product-reviews">
+                                            <div class="single-review" *ngFor="let comment of comments">
+                                                <div class="review-heading">
+                                                    <div class="product-label product-label--owner" *ngIf="product.user.id == comment.user.id"> 
+                                                            <span>Owner</span>
+                                                    </div>
+                                                    <div><a href="#"><i class="fa fa-user-o"></i> {{comment.user.username}}</a></div>
+                                                    <div><a href="#"><i class="fa fa-clock-o"></i> {{comment.created_at | date:'medium'}}</a></div>
+                                                </div>
+                                                <div class="review-body">
+                                                    <p>{{comment.comment}}</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- <ul class="reviews-pages">
+                                                <li class="active">1</li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+                                            </ul> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="text-uppercase">Write Your Review</h4>
+                                        <p>Your email address will not be published.</p>
+                                        <form class="review-form" #commentForm="ngForm">
+                                            <div class="form-group">
+                                                <textarea id="comment" [(ngModel)]="newComment.comment" class="input" name="comment" placeholder="Your review" #comment="ngModel" required></textarea>
+                                                <!-- <input type="text" class="input" placeholder="Your review"> -->
+                                                <!-- <input type="text"> -->
+                                            </div>
+                                            <!-- <div class="form-group">
+                                                <div class="input-rating">
+                                                    <strong class="text-uppercase">Your Rating: </strong>
+                                                    <div class="stars">
+                                                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+                                                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+                                                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+                                                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+                                                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <button (click)="makeComment()" [disabled]="!commentForm.form.valid" class="btn primary-btn">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /Product Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->

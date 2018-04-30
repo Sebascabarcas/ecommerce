@@ -1,0 +1,68 @@
+.container-fluid--my-products {
+    margin: 15px 0;
+}
+
+.panel-body--user-products {
+    padding: 0 15px;
+    
+    .fa-size--user-products {
+        font-size: 220px;
+    }
+
+    img {
+        border-radius: 60px;
+        margin: 15px 0;
+    }
+}
+
+.product-label--price {
+    font-size: 16px;
+    margin-top: 15px;
+    background-color: #F8694A !important; 
+}
+
+.product-label {
+    width: 40%;
+    padding: 6px 15px;
+    margin-bottom: 10px; 
+    font-weight: 700;
+    color: #FFF;
+    background-color: #30323A;
+}
+
+.label-file {
+    // border ra
+    color: white;
+    background-color: #30323A;
+    margin-bottom: 15px;
+}
+
+.input-file {
+    display: none;
+}
+
+.dropdown-comments {
+    margin-top: 15px;
+}
+
+
+.single-review--my-products {
+    margin-bottom: .5px;
+}
+
+.col-comments {
+    margin-top: 15px;
+}
+
+.btn--my-products {
+    font-size: 18px;
+    float: right;
+    margin: 0 5px;
+}
+
+.panel-title--my-products {
+    padding-top: 10px;
+    padding-bottom: 8px;
+    font-size: 20px;
+}
+

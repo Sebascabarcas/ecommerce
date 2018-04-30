@@ -1,0 +1,35 @@
+<div class="user-products-container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="container-title">
+          <h4 class="title-user-products">Products</h4>
+        </div>
+      </div>
+      <div class="container-scroll">
+        <div class="col-md-12 col-parent-product" *ngFor="let product of products">
+          <div class="container-product">
+            <!-- <div class="row"> -->
+              <div class="col-md-4 col-product">
+                <div class="container-photo">
+                  <!-- <h4 class="title-user-products">Product photo</h4> -->
+                  <img [src]="product.product_picture[0].picture.url" height="100%" alt="" *ngIf="product.product_picture">
+                </div>
+              </div>
+              <div class="col-md-4 col-product">
+                <div class="container-details">
+                  <h4 class="title-user-products">{{product.name}}</h4>
+                  <h4 class="title-user-products">{{product.price | currency : 'COP ' : true:'1.0'}}</h4>
+                </div>
+              </div>
+              <div class="col-md-4 col-product">
+                <div class="container-button">
+                  <button class="btn btn-primary">View product</button>
+                </div>
+              </div>
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+

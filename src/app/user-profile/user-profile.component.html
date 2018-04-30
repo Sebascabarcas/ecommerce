@@ -1,0 +1,115 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+  <div class="row">
+    <div class="profile-title">
+      <h1>My account</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="profile-empty-div">
+            <!-- <div class="photos-container"> -->
+              <label for="file" *ngIf="!url"><i class="profile-empty img-responsive"></i></label>
+              <label for="file">
+                <img [src]="url" height="200" *ngIf="url">
+              </label>
+              <br>
+            <!-- </div> -->
+              <label for="file" class="btn label-file"><i class="fa fa-folder"></i> Browser</label>
+              <input id="file" type='file' #fileInput class="input-file" [(ngModel)]="file" (change)="onSelectFile($event)">
+              <!-- <label class="btn label-file" *ngIf="change" (click)="uploadProfilePhoto()">Upload <i class="fa fa-upload"></i></label> -->
+          </div>
+    </div>
+  </div>
+  <form class="form" (ngSubmit)="updateUser()" #updateUserForm="ngForm">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-1">
+        <div class="form-group">
+          <input id="email" [(ngModel)]="user.email" class="form-control input" type="email" name="email" placeholder="email" #email="ngModel" email required>
+        </div>
+        <div class="form-group">
+            <input id="username" [(ngModel)]="user.username" class="form-control input" type="text" name="username" placeholder="username" #username="ngModel" ng-trim="false" pattern="^[a-zA-Z0-9._-]+$" minlength="4" maxlength="20" required>
+            <!-- <div *ngIf="username.invalid"
+              class="alert alert-warning">
+                Username must be at least 4 and max 20 characters long, It can only have these symbols - _ . without spaces
+            </div>
+            <div *ngIf="errors.username"
+              class="alert alert-danger">
+                {{errors.username[0]}}.
+            </div> -->
+        </div>
+        <!-- <div class="form-group">
+          <input id="password" [(ngModel)]="user.password" class="form-control input" type="password" name="password" placeholder="password" #password="ngModel" ng-trim="false" pattern="^[a-zA-Z0-9._-]+$" minlength="4" maxlength="20">
+        </div> -->
+        <!-- <div class="form-group">
+            <input id="username" [(ngModel)]="user.username" class="form-control input" type="text" name="username" placeholder="email" #username="ngModel" ng-trim="false" pattern="^[a-zA-Z0-9._-]+$" minlength="4" maxlength="20" required>
+        </div> -->
+        <div class="form-group">
+            <input id="birthdate" [(ngModel)]="user.birthdate" class="form-control input input-date" type="date" #birthdate="ngModel" name="birthdate" min="1990-01-01" max="2010-01-01" required>
+            <!-- <div *ngIf="!birthdate.dirty && !birthdate.touched"
+              class="alert alert-warning">
+                Birthdate is required.
+            </div> -->
+          </div>
+        <div class="form-group">
+          <input [(ngModel)]="user.gender" type="radio" name="gender" value="male"> Male<br>
+          <input [(ngModel)]="user.gender" type="radio" name="gender" value="female"> Female<br>
+          <input [(ngModel)]="user.gender" type="radio" name="gender" value="other"> Other
+        </div>
+        
+      </div>
+      <div class="col-md-4 col-md-offset-1">
+        <div class="section-origins section-origins--my-profile">
+          <div class="shipping-title">
+            <h3>Shipping addresses</h3>
+          </div>
+          <div class="no-origins" *ngIf="origins.length < 1">
+            <p>You don´t have any shipping address added</p>
+          </div>
+          <div class="origins-container" *ngIf="origins.length > 0">
+            <hr>
+            <div class="single-origin" *ngFor="let origin of origins">
+              <div class="row row-origin">
+                <div class="col-md-10">
+                  <div class="origin-header">
+                    <p><strong>{{origin.address}}</strong></p>
+                    <p>{{origin.state}}, {{origin.city}}</p>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="dropdown dropdown-address">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      <i class="fa fa-gear"></i>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-options" aria-labelledby="dropdownMenu1">
+                      <!-- <li><a href="#">Edit</a></li> -->
+                      <li><a (click)="openModal(origin.id)">Delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+          <app-origin-add [initial]="false"></app-origin-add>
+        </div>
+      </div>
+      <div class="col-md-6 col-md-offset-3">
+        <div class="form-group--btn">
+          <button type="submit" class="btn btn-primary btn--my-profile" [disabled]="!updateUserForm.form.valid">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+  <div class="popup-warning" *ngIf="showModal">
+    <div class="modal-delete">
+      <div class="modal-title">
+        <i class="fa fa-exclamation-triangle fa-5x"></i>
+        <h4>Are you sure?</h4>
+        <button class="btn btn-danger" (click)="deleteOrigin()">Delete</button>
+        <button class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>

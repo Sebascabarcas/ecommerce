@@ -1,20 +1,26 @@
+<app-navbar></app-navbar>
+<br>
 <div class="container">
   <!-- row -->
   <div class="row">
-    <form id="checkout-form" class="clearfix">
+    <form id="checkout-form" class="clearfix" #loginUserForm="ngForm">
       <div class="col-md-6">
         <div class="billing-details">
-          <p>Already not a customer ? <a href="#">Register</a></p>
+          <p>Already not a customer ? <a href="/register">Register</a></p>
           <div class="section-title">
             <h3 class="title">Login</h3>
           </div>
           <div class="form-group">
-            <input [(ngModel)]="user.account" class="input" type="text" name="username or email" placeholder="Username or email">
+            <input [(ngModel)]="user.account" class="input" type="text" name="username or email" #account="ngModel" placeholder="Username or email">
           </div>
           <div class="form-group">
-            <input [(ngModel)]="user.password" class="input" type="password" name="password" placeholder="Password">
+            <input [(ngModel)]="user.password" class="input" type="password" name="password" #password="ngModel" placeholder="Password">
           </div>
           <button (click)="loginUser(user)" type="submit" class="btn btn-primary">Log in</button>
+          <div *ngIf="errors.single_authentication"
+              class="alert alert-danger">
+                Username or password incorrect
+          </div>
         </div>
       </div>
     </form>

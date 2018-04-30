@@ -1,0 +1,9 @@
+<div class="popup-warning">
+    <div class="modal-delete">
+      <div class="modal-title">
+        <i class="fa fa-exclamation-triangle fa-5x"></i>
+        <h4 *ngFor="let message of messages">- {{message}}</h4>
+        <button class="btn btn-primary" (click)="close()">Ok</button>
+      </div>
+    </div>
+</div>

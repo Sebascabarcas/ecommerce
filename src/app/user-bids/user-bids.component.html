@@ -1,0 +1,61 @@
+<app-navbar></app-navbar>
+<div class="container-fluid container-fluid--my-purchases">
+  <div class="row" *ngFor="let bid of bids">
+      <div class="col-md-7 col-md-offset-1">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <div class="row">
+  
+                          <div class="col-md-3">
+                             <strong>BID PLACED:</strong> 
+                              <br>
+                              {{bid.created_at | date:'medium'}}
+                      </div>
+                      <div class="col-md-3">
+                        <strong>BID TOTAL:</strong> 
+                          <br>
+                          {{ bid.bid | currency : 'COP ' : true:'1.0'}}
+                      </div>
+                      <!-- <div class="col-md-3">
+                          SHIP TO:
+                          <br>
+                          Tal dirección
+                      </div> -->
+                      <div class="col-md-3 col-md-offset-3">
+                         <strong>BID # {{bid.id}}</strong> 
+                      </div>
+                  </div>
+              </div>
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="col-md-3">
+                            <div class="img-container--history">
+                                <i class="fa fa-"></i>
+                                <!-- <img [src]="bid.product.cover.url" height="100" alt=""> -->
+                            </div>
+                      </div>
+                      <div class="col-md-5">
+                            <h4>{{bid.product.name | titlecase}}</h4> 
+                             <p><strong>Sold by:</strong> <a href="profile/{{bid.user.id}}">{{bid.user.username}}</a></p>
+                            <p><strong>Price:</strong>  {{bid.product.price | currency : 'COP ' : true:'1.0'}}</p>
+                      </div>
+                      <div class="col-md-3 col-md-offset-1">
+                          <button class="btn btn-primary btn--purchases" (click)="goToBid(bid.product.id)">Go to bid again</button>
+                          <br>
+                          <!-- <button class="btn btn-primary btn--purchases">View product</button> -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-3">
+            <div class="panel panel-default panel--status">
+              <div class="panel-heading panel-heading--actions">
+                <h4>Status</h4>
+              </div>
+              <div class="panel-body panel-body--actions">
+                  <h4>Message</h4>
+              </div>
+            </div>
+      </div>
+  </div>

@@ -1,0 +1,18 @@
+.rateForm {
+    h4 {
+        font-size: 20px;
+    }
+
+    text-align: center;
+    display: table;
+    position: fixed;
+    left: 0;
+    // top: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    // width: 50%;
+    .stars {
+     display: table;   
+    }
+}

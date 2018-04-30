@@ -1,22 +1,144 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import { Router } from '@angular/router';
  
 @Injectable()
 export class AuthService {
 
-  private _registerUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/users"
-  private _loginUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/sessions"
-  constructor(private http: HttpClient) { }
+  private _baseUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/users"
+  private _sessionUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/sessions"
+  private _baseSalesUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/user_sales"
+  private _buyerScoreUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/buyer_score"
+  private _sellerScoreUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/seller_score"
+  private _userBuyerScoreUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/user_buyer_score"
+  private _userSellerScoreUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/user_seller_score"
+  private _shippedUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/purchase_shipped"
+  private _deliveredUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/purchase_delivered"
+  private _bidUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/user_bids"
+  private _profilePhotoUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/profile_pictures"
+  private _pendingActionsUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/pending_actions"
+
+
+  constructor(private http: HttpClient, private router: Router) { }
 
   registerUser (user) {
-    return this.http.post<any>(this._registerUrl, user)
+    return this.http.post<any>(this._baseUrl, user)
+    .catch(this.errorHandler);
+  }
+  
+  loginUser (user) {
+    return this.http.post<any>(this._sessionUrl, user)
+    .catch(this.errorHandler);
+  }
+  
+  logOut () {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.delete<any>(this._sessionUrl, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+  
+  showUser(userId) {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.get<any>(this._baseUrl + '/' + userId, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+  
+  showUserBids() {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.get<any>(this._bidUrl, {headers: reqHeader})
+    .catch(this.errorHandler);
   }
 
-  loginUser (user) {
-    return this.http.post<any>(this._loginUrl, user)
+  updateUser (user) {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._baseUrl + '/' + user.userId, user, {headers: reqHeader})
+    .catch(this.errorHandler);
   }
+  
+  updateUserProfilePhoto (photo) {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._profilePhotoUrl, photo, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+
+  setBuyerScore (score, purchaseId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._buyerScoreUrl + '/' + purchaseId, score, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+
+  setSellerScore (score, saleId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._sellerScoreUrl + '/' + saleId, score, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+  getBuyerScore (userId): Observable<any> {
+    return this.http.get<any>(this._userBuyerScoreUrl + '/' + userId)
+    .catch(this.errorHandler);
+  }
+
+  getSellerScore (userId): Observable<any> {
+    return this.http.get<any>(this._userSellerScoreUrl + '/' + userId)
+    .catch(this.errorHandler);
+  }
+  
+  setShipped (saleId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._shippedUrl + '/' + saleId, {}, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+  
+  setDelivered (purchaseId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._deliveredUrl + '/' + purchaseId, {}, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+
+  
+  pendingActions (): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.get<any>(this._pendingActionsUrl, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+
+
 
   loggedIn() {
-    return !!localStorage.getItem('token')
+    return !!localStorage.getItem('auth')
+  }
+
+
+  getToken() {
+    let auth = JSON.parse(localStorage.getItem('auth'))
+    return auth.token
+  }
+  
+  getHeader() {
+    return {'Authorization': 'Token token='+this.getToken()}
+  }
+
+  getUserSales (): Observable<any[]> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.get<any>(this._baseSalesUrl, {headers: reqHeader})
+                .catch(this.errorHandler);
+  }
+
+  errorHandler(error: HttpErrorResponse) {
+    let _router = this.router
+    if (error.error.errors.includes("invalid token")) {
+      localStorage.removeItem('auth')
+      localStorage.removeItem('amount')
+      _router.navigate(['login'])
+    }
+    // console.log(error.statusText)
+    // console.log(error.headers)
+    // console.log(error.name)
+    // console.log(error.status)
+    // console.log(error.type)
+    // console.log(error.url)
+    return Observable.throw(error || "Server error")
   }
 }

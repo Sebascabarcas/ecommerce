@@ -1,0 +1,27 @@
+.header-profile {
+    margin-top: 50px;
+    text-align: center;
+    // display: table;
+    .photo {
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 30px;
+        // text-align: center;
+        // text-align: center;
+        height: 300px;
+        img {
+            border-radius: 40px;
+        }
+
+    }
+
+    .container-stars {
+        margin-bottom: 30px;
+    }
+
+    p {
+        padding-left: 10px;
+        font-size: 20px;
+        text-align: left;
+    }
+}

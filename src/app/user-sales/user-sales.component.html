@@ -1,0 +1,67 @@
+<app-navbar></app-navbar>
+<div class="container-fluid container-fluid--my-purchases">
+<div class="row" *ngFor="let sale of sales">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                        <div class="col-md-3">
+                           <strong>SALE PLACED:</strong> 
+                            <br>
+                            {{sale.created_at | date:'medium'}}
+                    </div>
+                    <div class="col-md-3">
+                       <strong> TOTAL: </strong> 
+                        <br>
+                        {{ sale.total_price | currency : 'COP ' : true:'1.0'}}
+                    </div>
+                    <div class="col-md-3">
+                       <strong> SHIP TO: </strong> 
+                        <br>
+                        {{sale.destiny.address}}
+                    </div>
+                    <div class="col-md-3">
+                    <strong> SALE # {{sale.id}} </strong> 
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="img-container--history">
+                            <i class="fa fa-"></i>
+                            <img [src]="sale.product.cover.url" height="100" alt="">
+                        </div>
+                        <!-- {{sale.cover.url}} -->
+                    </div>
+                    <div class="col-md-5">
+                        <h4>{{sale.product.name | titlecase}}</h4> 
+                        <!-- <br> -->
+                         <p><strong>Buy by:</strong> <a href="profile/{{sale.buyer.id}}">{{sale.buyer.username}}</a></p>
+                        <!-- <br> -->
+                        <p><strong>Price:</strong>  {{sale.product.price | currency : 'COP ' : true:'1.0'}}</p>
+                        <p><strong> Quantity:</strong> {{sale.quantity}}</p>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1">
+                        <button class="btn btn-primary btn--sales" (click)="goToFeedback(sale.id)" [disabled]="!sale.was_delivered || sale.buyer_score">Leave buyer feedback</button>
+                        <br>
+                        <br>
+                        <button class="btn btn-primary btn--sales" (click)="setShipped(sale.id)" [disabled]="sale.was_shipped">Shipped</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+            <div class="panel panel-default panel--status">
+              <div class="panel-heading panel-heading--actions">
+                <h4>Status</h4>
+              </div>
+              <div class="panel-body panel-body--actions">
+                  <h4 *ngIf="pendingActions['sold_product' + sale.id]">{{pendingActions['sold_product' + sale.id]}}</h4>
+                  <h4 *ngIf="!pendingActions['sold_product' + sale.id]">You have done everything</h4>
+              </div>
+            </div>
+      </div>
+</div>
+<app-rate [id]="currentSaleId" [action]="stringAction" (closeRate)="closeModalRate()" *ngIf="modalRate"></app-rate>

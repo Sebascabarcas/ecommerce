@@ -1,0 +1,41 @@
+.img-product {
+    border-radius: 25px;
+}
+
+.product-body {
+    margin-top: 40px;
+}
+
+.col-comments {
+    overflow: hidden;
+    .product-reviews {
+        border-top: 2px solid #F8694A;
+        border-bottom: 2px solid #F8694A;
+        overflow-y: auto;
+        max-height: 230px;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.175);
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: #888; 
+        }
+        
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+        
+        .single-review {
+            padding: 10px;
+
+        }
+    }
+}

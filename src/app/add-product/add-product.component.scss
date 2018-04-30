@@ -1,0 +1,38 @@
+.container-fluid--add-product {
+    margin: 12px;
+}
+
+.container-title {
+    margin: 20px;
+    h1 {
+        text-align: center;
+    }
+}
+.form {
+    .input {
+        border-radius: 4px;
+    }
+
+    &__label {
+        font-size: 1.2rem;
+        margin-left: 2rem;
+        font-weight: 700;
+        margin-top: .5rem;
+        display: block;
+        transition: all .3s;
+        color: black;
+    }
+
+    &__input:placeholder-shown + &__label {
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+    .label-images {
+        color: black;
+    }
+}
+
+.section-origins--add-product {
+    margin: 0 10px;
+}

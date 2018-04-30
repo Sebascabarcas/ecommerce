@@ -1,0 +1,67 @@
+<button class="btn btn-primary" (click)="openPopup()">Add one</button>
+<div class="popup" id="popupForm" *ngIf="showPopup">
+    <!-- <div class="popup__btn">
+        <a href="#popupForm" target="_self" class="popup__icon">&plus;</a>
+    </div> -->
+    
+  <form class="form-popup" #addOriginForm="ngForm">
+        <h1>ADD SHIPPING ADDRESS</h1>
+    <div class="form-popup-group">
+          <agm-map
+          [latitude]="lat"
+          [longitude]="lng"
+          [zoom]="zoom"
+          [disableDefaultUI]="false"
+          [zoomControl]="true">
+          
+          <agm-marker
+          
+          [latitude]="lat"
+          [longitude]="lng">
+          
+        </agm-marker>
+        
+      </agm-map>
+    </div>
+    <div class="form-popup-group">
+      <input type="text" class="form-control input" id="autocompleteInput" placeholder="Address" name="autocomplete" autocomplete="off" #address="ngModel" [(ngModel)]="newOrigin.address" required>
+      <!-- <input type="text" class="form-control input" id="autocompleteInput1" placeholder="Address"  autocomplete="off"  required> -->
+      <label for="autocompleteInput" class="form-popup__label">Address</label>
+    </div>
+    <div class="form-popup-group">
+      <input class="form-control input" name="country" placeholder="Country" [(ngModel)]="newOrigin.country" #country="ngModel" id="country" required>
+      <label for="country" class="form-popup__label">Country</label>
+    </div>
+    <div class="form-popup-group">
+      <div class="row">
+        <div class="col-md-4">
+            <input class="form-control input" id="state" placeholder="State" name="state" #state="ngModel" [(ngModel)]="newOrigin.state" required>
+            <label for="state" class="form-popup__label">State</label>
+          </div>
+          <div class="col-md-4">
+            <input class="form-control input" id="locality" placeholder="City" name="locality" #locality="ngModel" [(ngModel)]="newOrigin.city" required>
+            <label for="locality" class="form-popup__label">City</label>
+          </div>
+          <div class="col-md-4">
+            <input class="form-control input" id="postal_code" name="postal_code" placeholder="Postal code"  #postalCode="ngModel" [(ngModel)]="newOrigin.postal_code" required>
+            <label for="postal_code" class="form-popup__label">Postal code</label>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-popup-group">
+        <input class="input" id="postal_code" name="postal_code" placeholder="Postal code" [(ngModel)]="postal_code">
+        <label for="postal_code" class="form-popup__label">Postal code</label>
+    </div> -->
+          <div class="form-popup-group">
+            <textarea id="description" [(ngModel)]="newOrigin.description" class="form-control" rows="2" name="description" placeholder="Build description" #description="ngModel" required></textarea>
+            <label for="description" class="form-popup__label">Description</label>
+          </div>
+          <div class="form-popup-group form-popup-group--last">
+            <button type="submit" (click)="addOrigin()" [disabled]="!addOriginForm.form.valid" class="btn btn-primary">Add</button>
+        </div>
+    <label for="popup-toggle"  class="popup__button--close">
+        <!-- <a href="/#/conflict-matrix" class="popup__icon--close">&#10006;</a> -->
+        <span class="popup__icon--close"><i class="fa fa-times-circle" aria-hidden="true" (click)="hiddePopup()"></i></span>
+    </label>
+  </form>
+</div>

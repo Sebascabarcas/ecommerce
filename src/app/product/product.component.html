@@ -1,0 +1,238 @@
+<!-- BREADCRUMB -->
+<app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>
+<div id="breadcrumb">
+  <div class="container">
+    <ul class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li class="active">Products</li>
+    </ul>
+  </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- section -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <!-- ASIDE -->
+      <div id="aside" class="col-md-3">
+        <!-- aside widget -->
+        <div class="aside">
+          <h3 class="aside-title">Shop by:</h3>
+          <!-- <ul class="filter-list">
+            <li><span class="text-uppercase">color:</span></li>
+            <li><a href="#" style="color:#FFF; background-color:#8A2454;">Camelot</a></li>
+            <li><a href="#" style="color:#FFF; background-color:#475984;">East Bay</a></li>
+            <li><a href="#" style="color:#FFF; background-color:#BF6989;">Tapestry</a></li>
+            <li><a href="#" style="color:#FFF; background-color:#9A54D8;">Medium Purple</a></li>
+          </ul>  -->
+          
+          <!-- <ul class="filter-list">
+            <li><span class="text-uppercase">Size:</span></li>
+            <li><a href="#">X</a></li>
+            <li><a href="#">XL</a></li>
+          </ul> -->
+          
+          <ul class="filter-list">
+            <li><span class="text-uppercase">Price:</span></li>
+            <li><a>MIN: {{minRange | currency:'COP ':true:'1.0'}}</a></li>
+            <li><a>MAX: {{maxRange | currency:'COP ':true:'1.0'}}</a></li>
+          </ul>
+          <ul class="filter-list" *ngIf="category != ''">
+            <li><span class="text-uppercase">Category:</span></li>
+            <li><a>{{category | titlecase}}</a></li>
+          </ul>
+          <ul class="filter-list" *ngIf="keyword != ''">
+            <li><span class="text-uppercase">Keyword:</span></li>
+            <li><a>{{keyword | titlecase}}</a></li>
+            <!-- <li><a>MAX: {{maxRange | currency:'COP ':true:'1.0'}}</a></li> -->
+          </ul>
+          <!-- <hr> -->
+          <!-- <ul class="filter-list">
+            <li><span class="text-uppercase">Gender: {{minRange}} {{maxRange}}</span></li>
+            <li><a href="#">Men</a></li>
+          </ul> -->
+          
+          <button class="primary-btn" (click)="clearAllFilters()">Clear All</button>
+        </div>
+        <!-- /aside widget -->
+        
+        <!-- aside widget -->
+        <div class="aside">
+          <h3 class="aside-title">Filter by Price</h3>
+          <nouislider [connect]="true" [min]="1" [max]="1000000" [step]="1000" [tooltips]="[true, true]"  [(ngModel)]="someRange" (ngModelChange)="onChange($event)"></nouislider>
+        </div>
+        <!-- aside widget -->
+        
+        <!-- aside widget -->
+        <!-- <div class="aside">
+          <h3 class="aside-title">Filter By Color:</h3>
+          <ul class="color-option">
+            <li><a href="#" style="background-color:#475984;"></a></li>
+            <li><a href="#" style="background-color:#8A2454;"></a></li>
+            <li class="active"><a href="#" style="background-color:#BF6989;"></a></li>
+            <li><a href="#" style="background-color:#9A54D8;"></a></li>
+            <li><a href="#" style="background-color:#675F52;"></a></li>
+            <li><a href="#" style="background-color:#050505;"></a></li>
+            <li><a href="#" style="background-color:#D5B47B;"></a></li>
+          </ul>
+        </div> -->
+        <!-- /aside widget -->
+        
+        <!-- aside widget -->
+        <!-- <div class="aside">
+          <h3 class="aside-title">Filter By Size:</h3>
+          <ul class="size-option">
+            <li class="active"><a href="#">S</a></li>
+            <li class="active"><a href="#">XL</a></li>
+            <li><a href="#">SL</a></li>
+          </ul>
+        </div> -->
+        <!-- /aside widget -->
+        
+        <!-- aside widget -->
+        <!-- <div class="aside">
+          <h3 class="aside-title">Filter by Brand</h3>
+          <ul class="list-links">
+            <li><a href="#">Nike</a></li>
+            <li><a href="#">Adidas</a></li>
+            <li><a href="#">Polo</a></li>
+            <li><a href="#">Lacost</a></li>
+          </ul>
+        </div> -->
+        <!-- /aside widget -->
+        
+        <!-- aside widget -->
+        <!-- <div class="aside">
+          <h3 class="aside-title">Top Rated Product</h3> -->
+          <!-- widget product -->
+          <!-- <div class="product product-widget">
+            <div class="product-thumb">
+              <img src="./img/thumb-product01.jpg" alt="">
+            </div>
+            <div class="product-body">
+              <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+              <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
+              <div class="product-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o empty"></i>
+              </div>
+            </div>
+          </div> -->
+          <!-- /widget product -->
+          
+          <!-- widget product -->
+          <!-- <div class="product product-widget">
+            <div class="product-thumb">
+              <img src="./img/thumb-product01.jpg" alt="">
+            </div>
+            <div class="product-body">
+              <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+              <h3 class="product-price">$32.50</h3>
+              <div class="product-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o empty"></i>
+              </div>
+            </div>
+          </div> -->
+          <!-- /widget product -->
+        <!-- </div> -->
+        <!-- /aside widget -->
+      </div>
+      <!-- /ASIDE -->
+      
+      <!-- MAIN -->
+      <div id="main" class="col-md-9">
+        <!-- store top filter -->
+        <div class="store-filter clearfix">
+          <div class="pull-left">
+            <div class="row-filter">
+              <a class="active"><i class="fa fa-bars"></i></a>
+            </div>
+            <div class="sort-filter">
+              <span class="text-uppercase">Sort By:</span>
+              <select class="input">
+                <option value="0">Position</option>
+                <option value="0">Price</option>
+                <option value="0">Rating</option>
+              </select>
+              <a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- /store top filter -->
+        
+        <!-- STORE -->
+        <div id="store">
+          <!-- row -->
+          <div class="row">
+            <!-- Product Single -->
+            <div *ngFor="let product of products | filterJson : minRange : maxRange" class="col-md-4 col-sm-6 col-xs-6">
+              <div class="product product-single">
+                <div class="product-thumb">´
+                  <div class="product-label" *ngIf="product.is_auction">
+                    <span>Auction</span>
+                    <!-- <span class="sale">-20%</span> -->
+                  </div>
+                  <button (click)="goToDetails(product.id)" class="main-btn quick-view"><i class="fa fa-search-plus"></i>Quick view</button>
+                  <img src="{{product.cover.url}}" width="100%" height="100%" class="img-product" alt="" *ngIf="product.cover">
+                </div>
+                <div class="product-body">
+                  <h3 class="product-price">{{product.price | currency:'COP ':true:'1.0'}}</h3>
+                  <div class="product-rating">
+                    <!-- <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o empty"></i> -->
+                  </div>
+                  <h2 class="product-name"><a href="#">{{product.name | titlecase}}</a></h2>
+                  <div class="product-btns">
+                    <!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button> -->
+                    <!-- <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
+                    <button class="primary-btn add-to-cart" (click)="addToCart(product, 1)" *ngIf="!product.is_auction && currentUserId != product.user.id"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                    <button class="primary-btn add-to-cart" (click)="goToDetails(product.id)" *ngIf="product.is_auction && currentUserId != product.user.id"><i class="fa fa-money"></i> Go to auction</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Product Single -->
+          </div>
+          <!-- /row -->
+        </div>
+        <!-- /STORE -->
+
+        <!-- store bottom filter -->
+        <div class="store-filter clearfix">
+          <div class="pull-left">
+              <div class="row-filter">
+                  <a href="#" class="active"><i class="fa fa-bars"></i></a>
+              </div>
+            <div class="sort-filter">
+              <span class="text-uppercase">Sort By:</span>
+              <select class="input">
+                  <option value="0">Position</option>
+                  <option value="0">Price</option>
+                  <option value="0">Rating</option>
+                </select>
+              <a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- /store bottom filter -->
+      </div>
+      <!-- /MAIN -->
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /section -->

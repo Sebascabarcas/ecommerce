@@ -1,0 +1,185 @@
+<app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>
+<div class="header-checkout">
+  <h1>CHECKOUT</h1>
+</div>
+	<!-- section -->
+	<div class="section">
+      <!-- container -->
+      <div class="container">
+        <!-- row -->
+        <div class="row">
+          <form id="checkout-form" class="clearfix" #orderForm="ngForm">
+            <div class="col-md-6 col-shipping-methods">
+              <div class="shiping-methods">
+                <div class="section-title">
+                  <h4 class="title">Shiping Methods</h4>
+                </div>
+                <div class="input-checkbox">
+                  <input type="radio" name="shipping" id="shipping-1" checked>
+                  <label for="shipping-1">Free Shiping -  COP 0.00</label>
+                  <div class="caption">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      <p>
+                  </div>
+                </div>
+                <div class="input-checkbox">
+                  <input type="radio" name="shipping" id="shipping-2">
+                  <label for="shipping-2">Standard - COP 12.000</label>
+                  <div class="caption">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      <p>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="payments-methods">
+                <div class="section-title">
+                  <h4 class="title">Payments Methods</h4>
+                </div>
+                <div class="input-checkbox">
+                  <input type="radio" name="payments" id="payments-1" checked>
+                  <label for="payments-1">Direct Bank Transfer</label>
+                  <div class="caption">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      <p>
+                  </div>
+                </div>
+                <div class="input-checkbox">
+                  <input type="radio" name="payments" id="payments-2">
+                  <label for="payments-2">Cheque Payment</label>
+                  <div class="caption">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      <p>
+                  </div>
+                </div>
+                <div class="input-checkbox">
+                  <input type="radio" name="payments" id="payments-3">
+                  <label for="payments-3">Paypal System</label>
+                  <div class="caption">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      <p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="section-origins">
+                  <div class="shipping-title">
+                    <h3>Shipping addresses</h3>
+                  </div>
+                  <div class="no-origins" *ngIf="origins.length < 1">
+                    <p>You don´t have any shipping address added</p>
+                  </div>
+                  <div class="origins-container" *ngIf="origins.length > 0">
+                    <hr>
+                    <div class="single-origin" *ngFor="let origin of origins; let i = index">
+                      <div class="row row-origin">
+                        <div class="col-md-10">
+                          <div class="origin-header">
+                            <p><strong>{{origin.address}}</strong></p>
+                            <p>{{origin.state}}, {{origin.city}}</p>
+                          </div>
+                        </div>
+                        <div class="col-md-1">
+                          <div class="dropdown dropdown-address dropdown-input">
+                              <!-- <input type="radio" class="" name="destiny"> -->
+                              <input type="radio" id="destined" name="destined" [value]="origin.id" #destined="ngModel" [(ngModel)]="destiny" *ngIf="i == 0">
+                              <input type="radio" name="destined" [value]="origin.id" #destined="ngModel" [(ngModel)]="destiny" *ngIf="i != 0">
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+                  <app-origin-add [initial]="initial"></app-origin-add>
+                </div>
+            </div>
+            <div class="col-md-12">
+              <div class="order-summary clearfix">
+                <div class="section-title">
+                  <h3 class="title">Order Review</h3>
+                </div>
+                <table class="shopping-cart-table table">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th></th>
+                      <th class="text-center">Price</th>
+                      <th class="text-center">Quantity</th>
+                      <th class="text-center">Total</th>
+                      <th class="text-right"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let product of products; let i = index">
+                    <!-- <tr> -->
+                      <td class="thumb"><img [src]="product.cover_url" alt=""></td>
+                      <td class="details">
+                        <a href="#">{{product.name}}</a>
+                        
+                      </td>
+                      <td class="price text-center"><strong>COP {{product.price}}</strong></td>
+                      <td class="qty text-center"><input class="input" type="number" value="{{product.quantity}}"></td>
+                      <td class="total text-center"><strong class="primary-color">COP {{product.price * product.quantity}}</strong></td>
+                      <td class="text-right"><label class="main-btn icon-btn" (click)="removeFromCart(i)"><i class="fa fa-close"></i></label></td>
+                    </tr>
+                    <!-- <tr>
+                      <td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
+                      <td class="details">
+                        <a href="#">Product Name Goes Here</a>
+                        <ul>
+                          <li><span>Size: XL</span></li>
+                          <li><span>Color: Camelot</span></li>
+                        </ul>
+                      </td>
+                      <td class="price text-center"><strong>$32.50</strong></td>
+                      <td class="qty text-center"><input class="input" type="number" value="1"></td>
+                      <td class="total text-center"><strong class="primary-color">$32.50</strong></td>
+                      <td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
+                      <td class="details">
+                        <a href="#">Product Name Goes Here</a>
+                        <ul>
+                          <li><span>Size: XL</span></li>
+                          <li><span>Color: Camelot</span></li>
+                        </ul>
+                      </td>
+                      <td class="price text-center"><strong>$32.50</strong></td>
+                      <td class="qty text-center"><input class="input" type="number" value="1"></td>
+                      <td class="total text-center"><strong class="primary-color">$32.50</strong></td>
+                      <td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
+                    </tr> -->
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="empty" colspan="3"></th>
+                      <th>SUBTOTAL</th>
+                      <th colspan="2" class="sub-total">COP {{amount.total}}</th>
+                    </tr>
+                    <tr>
+                      <th class="empty" colspan="3"></th>
+                      <th>SHIPING</th>
+                      <td colspan="2">Free Shipping</td>
+                    </tr>
+                    <tr>
+                      <th class="empty" colspan="3"></th>
+                      <th>TOTAL</th>
+                      <th colspan="2" class="total">COP {{amount.total}}</th>
+                    </tr>
+                  </tfoot>
+                </table>
+                <div class="pull-right">
+                  <button class="btn btn-primary" (click)="placeOrder()" [disabled]="!orderForm.form.valid">Place Order</button>
+                </div>
+              </div>
+  
+            </div>
+          </form>
+        </div>
+        <!-- /row -->
+      </div>
+      <!-- /container -->
+    </div>
+    <!-- /section -->

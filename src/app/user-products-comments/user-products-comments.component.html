@@ -1,0 +1,41 @@
+<div class="dropdown dropdown-comments">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      View comments
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <li *ngFor="let comment of comments">
+        <div class="product-reviews">
+          <div class="single-review single-review--my-products">
+              <div class="review-heading">
+                  <div><a href="#"><i class="fa fa-user-o"></i> {{comment.user.username}}</a></div>
+                  <div><a href="#"><i class="fa fa-clock-o"></i> {{comment.created_at | date:'medium'}}</a></div>
+              </div>
+              <div class="review-body">
+                  <p>{{comment.comment}}</p>
+              </div>
+          </div>
+        </div>
+        <hr>
+      </li>
+      <!-- <li role="separator" class="divider"></li> -->
+      <!-- <li></li>
+      <li></li> -->
+      <!-- <li role="separator" class="divider"></li> -->
+      <!-- <li><a href="#">Separated link</a></li> -->
+      <div class="row">
+        <div class="col-md-12">
+          <form #productCommentForm="ngForm">
+            <div class="input-group">
+              
+              <input type="text" [(ngModel)]="newComment.comment" name="comment" class="form-control" #comment="ngModel" placeholder="Comment here...." autofocus required>
+              <!-- <textarea name="comment" id="comment" cols="60" rows="2"></textarea> -->
+              <span class="input-group-btn">
+                <button class="btn btn-default" (click)="makeComment()" type="submit" [disabled]="!productCommentForm.form.valid"><i class="fa fa-arrow-right "></i></button>
+              </span>
+            </div><!-- /input-group -->
+          </form>
+        </div>
+      </div>
+    </ul>
+</div>

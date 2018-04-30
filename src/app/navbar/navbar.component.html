@@ -1,0 +1,210 @@
+<app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>
+<header>
+    <!-- top Header -->
+    <div id="top-header">
+      <div class="container">
+        <div class="pull-left">
+          <span>Welcome to E-shop!</span>
+        </div>  
+        <div class="pull-right">
+          <ul class="header-top-links">
+            <li><a href="#">Store</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li class="dropdown default-dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
+              <ul class="custom-menu">
+                <li><a href="#">English (ENG)</a></li>
+                <li><a href="#">Russian (Ru)</a></li>
+                <li><a href="#">French (FR)</a></li>
+                <li><a href="#">Spanish (Es)</a></li>
+              </ul>
+            </li>
+            <li class="dropdown default-dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
+              <ul class="custom-menu">
+                <li><a href="#">USD ($)</a></li>
+                <li><a href="#">EUR (€)</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /top Header -->
+  
+    <!-- header -->
+    <div id="header">
+      <div class="container">
+        <div class="pull-left">
+          <!-- Logo -->
+          <div class="header-logo">
+            <a class="logo" href="#">
+              <img src="./img/logo.png" alt="">
+            </a>
+          </div>
+          <!-- /Logo -->
+  
+          <!-- Search -->
+          <div class="header-search">
+            <form>
+              <input class="input search-input" type="text" name="input"  (keyup.enter)="searchProducts()" placeholder="Enter your keyword" [(ngModel)]="search.input">
+              <select class="input search-categories" name="category" [(ngModel)]="search.category">
+                <option value="">All Categories</option>
+                <option value="antiques">Antiques</option>
+                <option value="art">Art</option>
+                <option value="baby">Baby</option>
+                <option value="books">Books</option>
+                <option value="business_and_industrial">Business and Industrial</option>
+                <option value="cameras_and_photo">Cameras and Photo</option>
+                <option value="cellphones_and_accessories">Cellphones and Accessories</option>
+                <option value="clothing_shoes_and_accessories">Clothing, Shoes and Accessories</option>
+                <option value="coins_and_paper_money">Coins and Paper Money</option>
+                <option value="collectibles">Collectibles</option>
+                <option value="computers_tablets_and_networking">Computers/Tablets and Networking</option>
+                <option value="consumer_electronics">Consumer Electronics</option>
+                <option value="crafts">Crafts</option>
+                <option value="dolls_and_bears">Dolls and Bears</option>
+                <option value="dvds_and_movies">DVDs and Movies</option>
+                <option value="ebay_motors">eBay Motors</option>
+                <option value="entertainment_memorabilia">Entertainment Memorabilia</option>
+                <option value="gift_cards_and_coupons">Gift Cards and Coupons</option>
+                <option value="health_and_beauty">Health and Beauty</option>
+                <option value="home_and_garden">Home and Garden</option>
+                <option value="jewelry_and_watches">Jewelry and Watches</option>
+                <option value="music">Music</option>
+                <option value="musical_instruments_and_gear">Musical Instruments and Gear</option>
+                <option value="pet_supplies">Pet Supplies</option>
+                <option value="pottery_and_glass">Pottery and Glass</option>
+                <option value="real_estate">Real Estate</option>
+                <option value="specialty_services">Specialty Services</option>
+                <option value="sporting_goods">Sporting Goods</option>
+                <option value="sports_mem_cards_and_fan_shop">Sports Mem, Cards and Fan Shop</option>
+                <option value="stamps">Stamps</option>
+                <option value="tickets_and_experiences">Tickets and Experiences</option>
+                <option value="toys_and_hobbies">Toys and Hobbies</option>
+                <option value="travel">Travel</option>
+                <option value="video_games_and_consoles">Video Games and Consoles</option>
+              </select>
+              <button class="search-btn" (click)="searchProducts()"><i class="fa fa-search"></i></button>
+            </form>
+          </div>
+          <!-- /Search -->
+        </div>
+        <div class="pull-right">
+          <ul class="header-btns">
+            <!-- Account -->
+            <li class="header-account dropdown default-dropdown">
+              <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                <div class="header-btns-icon">
+                  <i class="fa fa-user-o" *ngIf="!logged || !userInfo.profilePhoto"></i>
+                  <img [src]="userInfo.profilePhoto" height="100%" width="100%" *ngIf="userInfo.profilePhoto">
+                </div>
+                <strong class="text-uppercase" *ngIf="logged">{{userInfo.username}}<i class="fa fa-caret-down"></i></strong>
+              </div>
+              <a href="/login" class="text-uppercase" *ngIf="!logged">Login /</a>  <a href="/register" class="text-uppercase" *ngIf="!logged">Join</a>
+              <ul class="custom-menu" *ngIf="logged">
+                <li><a href="/my-profile"><i class="fa fa-user-o"></i> My Account</a></li>
+                <li><a href="/my-products"><i class="fa fa-desktop"></i>My Products</a></li>
+                <li><a href="/my-bids"><i class="fa fa-money"></i>My Bids</a></li>
+                <li><a href="/my-purchases"><i class="fa fa-archive"></i>My Purchases</a></li>
+                <li><a href="/my-sales"><i class="fa fa-handshake-o"></i>My Sales</a></li>
+                <li><a href="/product-add"><i class="fa fa-plus"></i> Add Product</a></li>
+                <li><a (click)="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                <!-- For make something appears like loading use fa-spinner fa-pulse -->
+                <!-- <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li> -->
+                <!-- <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li> -->
+                <!-- <li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li> -->
+                <!-- <li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li> -->
+              </ul>
+            </li>
+            <!-- /Account -->
+  
+            <!-- Cart -->
+            <li class="header-cart dropdown default-dropdown" *ngIf="productsCart.length > 0">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                <div class="header-btns-icon header-btns-icon--cart">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span class="qty">{{productsCart.length}}</span>
+                </div>
+                <strong class="text-uppercase">My Cart:</strong>
+                <br>
+                <span class="cart-total">{{amount.total | currency : 'COP ' : true:'1.0'}}</span>
+              </a>
+              <div class="custom-menu">
+                <div id="shopping-cart">
+                  <div class="shopping-cart-list">
+                    <div class="product product-widget" *ngFor="let product of productsCart; let i = index">
+                      <div class="product-thumb">
+                        <img [src]="product.cover.url" alt="" *ngIf="product.cover">
+                      </div>
+                      <div class="product-body">
+                        <h3 class="product-price">{{product.price | currency : 'COP ' : true: '1.0'}} <span class="qty">x{{product.quantity}}</span></h3>
+                        <h2 class="product-name"><a href="#">{{product.name}}</a></h2>
+                      </div>
+                      <button class="cancel-btn" (click)="removeFromCart(i)"><i class="fa fa-trash"></i></button>
+                    </div>
+                    <!-- <div class="product product-widget">
+                      <div class="product-thumb">
+                        <img src="./img/thumb-product01.jpg" alt="">
+                      </div>
+                      <div class="product-body">
+                        <h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
+                        <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+                      </div>
+                      <button class="cancel-btn"><i class="fa fa-trash"></i></button>
+                    </div> -->
+                  </div>
+                  <div class="shopping-cart-btns">
+                    <button class="main-btn" (click)="deleteCart()">Delete Cart</button>
+                    <button class="primary-btn" (click)="goToCheckout()">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!-- /Cart -->
+  
+            <!-- Mobile nav toggle-->
+            <li class="nav-toggle">
+              <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+            </li>
+            <!-- / Mobile nav toggle -->
+          </ul>
+        </div>
+      </div>
+      <!-- header -->
+    </div>
+    <!-- container -->
+</header>
+
+<div id="navigation">
+		<!-- container -->
+		<div class="container">
+			<div id="responsive-nav">
+				<!-- category nav -->
+				<div class="category-nav show-on-click">
+					<span class="category-header">Categories <i class="fa fa-list"></i></span>
+					<ul class="category-list">
+						<li><a href="#">Men’s Clothing</a></li>
+						<li><a href="#">Computer & Office</a></li>
+						<li><a href="#">Consumer Electronics</a></li>
+						<li><a href="#">Bags & Shoes</a></li>
+						<li><a href="#">View All</a></li>
+					</ul>
+				</div>
+				<!-- /category nav -->
+
+				<!-- menu nav -->
+				<div class="menu-nav">
+					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+					<ul class="menu-list">
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Sales</a></li>
+						<li *ngIf="userInfo.role == 'admin'"><a href="/admin">Admin View</a></li>
+					</ul>
+				</div>
+				<!-- menu nav -->
+			</div>
+		</div>
+		<!-- /container -->
+	</div>

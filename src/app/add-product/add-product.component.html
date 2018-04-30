@@ -1,0 +1,161 @@
+<div class="container-fluid container-fluid--add-product">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="container-title">
+        <h1>CREATE PRODUCT</h1>
+      </div>
+    </div>
+    <form class="form" (ngSubmit)="createProduct()" #addProductForm="ngForm">
+      <div class="col-md-5 col-md-offset-1">
+        <div class="form-group">
+          <input type="text" class="input form-control" placeholder="Nombre producto" [(ngModel)]="product.name" name="name" id="user" autocomplete="off" #nombreProducto="ngModel" pattern=".*[^ ].*" required>
+          <label for="user" class="form__label">Nombre producto</label>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">COP</span>
+          <input id="price" type="text" class="form-control" [(ngModel)]="product.price" name="price" placeholder="1000..." aria-label="Amount (to the nearest dollar)" minlength="1" #price="ngModel" required>
+          <!-- <span class="input-group-addon">.00</span> -->
+        </div>
+        <label for="price" class="form__label">Price</label>
+        <div class="form-group">
+          <select class="input form-control" [(ngModel)]="product.category" name="category" id="sel1" required>
+              <option value="antiques">Antiques</option>
+              <option value="art">Art</option>
+              <option value="baby">Baby</option>
+              <option value="books">Books</option>
+              <option value="business_and_industrial">Business and Industrial</option>
+              <option value="cameras_and_photo">Cameras and Photo</option>
+              <option value="cellphones_and_accessories">Cellphones and Accessories</option>
+              <option value="clothing_shoes_and_accessories">Clothing, Shoes and Accessories</option>
+              <option value="coins_and_paper_money">Coins and Paper Money</option>
+              <option value="collectibles">Collectibles</option>
+              <option value="computers_tablets_and_networking">Computers/Tablets and Networking</option>
+              <option value="consumer_electronics">Consumer Electronics</option>
+              <option value="crafts">Crafts</option>
+              <option value="dolls_and_bears">Dolls and Bears</option>
+              <option value="dvds_and_movies">DVDs and Movies</option>
+              <option value="ebay_motors">eBay Motors</option>
+              <option value="entertainment_memorabilia">Entertainment Memorabilia</option>
+              <option value="gift_cards_and_coupons">Gift Cards and Coupons</option>
+              <option value="health_and_beauty">Health and Beauty</option>
+              <option value="home_and_garden">Home and Garden</option>
+              <option value="jewelry_and_watches">Jewelry and Watches</option>
+              <option value="music">Music</option>
+              <option value="musical_instruments_and_gear">Musical Instruments and Gear</option>
+              <option value="pet_supplies">Pet Supplies</option>
+              <option value="pottery_and_glass">Pottery and Glass</option>
+              <option value="real_estate">Real Estate</option>
+              <option value="specialty_services">Specialty Services</option>
+              <option value="sporting_goods">Sporting Goods</option>
+              <option value="sports_mem_cards_and_fan_shop">Sports Mem, Cards and Fan Shop</option>
+              <option value="stamps">Stamps</option>
+              <option value="tickets_and_experiences">Tickets and Experiences</option>
+              <option value="toys_and_hobbies">Toys and Hobbies</option>
+              <option value="travel">Travel</option>
+              <option value="video_games_and_consoles">Video Games and Consoles</option>
+          </select>
+          <label for="sel1" class="form__label">Category</label>
+        </div>
+        <div class="form-group">
+          <textarea id="description" [(ngModel)]="product.description" class="form-control" rows="2" name="description" placeholder="Your description" #description="ngModel" required></textarea>
+          <!-- <input type="text" class="input" placeholder="Your review"> -->
+          <!-- <input type="text"> -->
+          <label for="description" class="form__label">Description</label>
+        </div>
+        <div class="form-group">
+          <textarea id="shipping-description" [(ngModel)]="product.shipping_description" class="form-control" rows="2" name="shipping-description" placeholder="Your shipping description" #shippingDescription="ngModel" required></textarea>
+          <label for="shipping-description" class="form__label">Shipping description</label>
+        </div>
+        <div class="form-group">
+          <input type="number" class="input input-number form-control" min="1" [(ngModel)]="product.stock" name="stock" #stock="ngModel" required>
+          <label for="number" class="form__label">Stock</label>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="used" name="used" [(ngModel)]="product.is_used" [value]="product.is_used"> Is used?
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="auction" name="auction" [(ngModel)]="product.is_auction" [value]="product.is_auction"> Is auction?
+          </label>
+        </div>
+        <div class="form-group form-group--last">
+          <button type="submit" class="btn btn-primary" [disabled]="!addProductForm.form.valid || !image">Create</button>
+        </div>
+      </div>
+      <div class="col-md-4 col-md-offset-1">
+        <div class="section-origins section-origins--add-product">
+            <div class="shipping-title">
+              <h3>Shipping addresses</h3>
+            </div>
+            <div class="no-origins" *ngIf="origins.length < 1">
+              <p>You don´t have any shipping address added</p>
+            </div>
+            <div class="origins-container" *ngIf="origins.length > 0">
+              <hr>
+              <div class="single-origin" *ngFor="let origin of origins; let i = index">
+                <div class="row row-origin">
+                  <div class="col-md-10">
+                    <div class="origin-header">
+                      <p><strong>{{origin.address}}</strong></p>
+                      <p>{{origin.state}}, {{origin.city}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="dropdown dropdown-address dropdown-input">
+                        <!-- <input type="radio" class="" name="destiny"> -->
+                        <input type="radio" id="destined" name="destined" [value]="origin.id" #destined="ngModel" [(ngModel)]="destiny" *ngIf="i == 0">
+                        <input type="radio" name="destined" [value]="origin.id" #destined="ngModel" [(ngModel)]="destiny" *ngIf="i != 0">
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </div>
+            <app-origin-add [initial]="initial"></app-origin-add>
+          </div>
+          <div class="section-photos">
+            <div class="form-group">
+                  <div class="shipping-title">
+                    <h3>Photos</h3>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                      <label for="file1" class="thumbnail">
+                        <img [src]="url[0]" alt="">
+                        <h4 [hidden]="url[0]">Cover photo</h4>
+                      </label>
+                    </div>
+                    <input id="file1" type='file' #fileInput class="input-file" name="cover" (change)="onSelectFile($event, 0)">
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="file2" class="thumbnail">
+                        <img [src]="url[1]" alt="">
+                        <h5 *ngIf="!url[1]">Second photo</h5>
+                      </label>
+                      <input id="file2" type='file' #fileInput class="input-file" name="image1"  (change)="onSelectFile($event, 1)">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="file3" class="thumbnail">
+                        <img [src]="url[2]" alt="">
+                        <h5 *ngIf="!url[2]">Third photo</h5>
+                      </label>
+                      <input id="file3" type='file' #fileInput class="input-file" name="image2"  (change)="onSelectFile($event, 2)">
+                    </div>
+                    <div class="col-md-6 col-md-offset-3">
+                      <label for="file4" class="thumbnail">
+                        <img [src]="url[3]" alt="">
+                        <h5 *ngIf="!url[3]">Fourth photo</h5>
+                      </label>
+                      <input id="file4" type='file' #fileInput class="input-file" name="image3"  (change)="onSelectFile($event, 3)">
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </form>
+  </div>
+</div>

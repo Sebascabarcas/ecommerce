@@ -1,0 +1,17 @@
+<div class="popup-warning">
+    <div class="modal-delete">
+      <div class="modal-title">
+        <form #ratingForm="ngForm" class="rateForm">
+          <h4>Rate {{action}}</h4>
+          <div class="container-stars">
+            <!-- <div class="row"> -->
+              <!-- <div class="col-md-9 col-md-offset-4"> -->
+                <bar-rating [(rate)]="bootRate" [(ngModel)]="rating" name="stars" class="stars" [max]="5" [theme]="'bootstrap'" required></bar-rating>
+              <!-- </div> -->
+            <!-- </div> -->
+          </div>
+          <button class="btn btn-primary" (click)="rate()" [disabled]="!ratingForm.form.valid">Ok</button>
+        </form>
+        </div>
+    </div>
+</div>

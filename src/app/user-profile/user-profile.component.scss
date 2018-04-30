@@ -1,0 +1,42 @@
+.profile-title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.product-label {
+    width: 40%;
+    padding: 6px 15px;
+    margin-bottom: 10px; 
+    font-weight: 700;
+    color: #FFF;
+    background-color: #30323A;
+}
+
+.profile-empty-div {
+    .label-file {
+        // border ra
+        margin-top: 10px;
+        color: white;
+        background-color: #30323A;
+        margin-bottom: 15px;
+    }
+
+    img, i {
+        cursor: pointer;
+        border-radius: 100px;
+        transition: all 1s;
+        &:hover {
+            filter: blur(5px);
+        }
+    }
+}
+
+.section-origins--my-profile {
+    margin: 0 25px;
+}
+
+.btn--my-profile {
+    font-size: 20px;
+    width: 20%;
+    margin-bottom: 20px;
+}

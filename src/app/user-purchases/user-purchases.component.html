@@ -1,0 +1,67 @@
+<app-navbar></app-navbar>
+<div class="container-fluid container-fluid--my-purchases">
+<div class="row" *ngFor="let purchase of purchases">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                        <div class="col-md-3">
+                           <strong>ORDER PLACED:</strong> 
+                            <br>
+                            {{purchase.created_at | date:'medium'}}
+                    </div>
+                    <div class="col-md-3">
+                       <strong> TOTAL: </strong> 
+                        <br>
+                        {{ purchase.total_price | currency : 'COP ' : true:'1.0'}}
+                    </div>
+                    <div class="col-md-3">
+                       <strong> SHIP TO: </strong> 
+                        <br>
+                        {{purchase.destiny.address}}
+                    </div>
+                    <div class="col-md-3">
+                    <strong> ORDER # {{purchase.id}} </strong> 
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="img-container--history">
+                            <i class="fa fa-"></i>
+                            <img [src]="purchase.product.cover.url" height="100" alt="">
+                        </div>
+                        <!-- {{purchase.cover.url}} -->
+                    </div>
+                    <div class="col-md-5">
+                        <h4>{{purchase.product.name | titlecase}}</h4> 
+                        <!-- <br> -->
+                         <p><strong>Sold by:</strong> <a href="profile/{{purchase.seller.id}}">{{purchase.seller.username}}</a></p>
+                        <!-- <br> -->
+                        <p><strong>Price:</strong>  {{purchase.product.price | currency : 'COP ' : true:'1.0'}}</p>
+                        <p><strong> Quantity:</strong> {{purchase.quantity}}</p>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1">
+                        <button class="btn btn-primary btn--purchases" (click)="goToFeedback(purchase.id)" [disabled]="!purchase.was_delivered || purchase.seller_score">Leave seller feedback</button>
+                        <br>
+                        <br>
+                        <button class="btn btn-primary btn--purchases" (click)="setDelivered(purchase.id)" [disabled]="purchase.was_delivered">Received</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+            <div class="panel panel-default panel--status">
+              <div class="panel-heading panel-heading--actions">
+                <h4>Status</h4>
+              </div>
+              <div class="panel-body panel-body--actions">
+                  <h4 *ngIf="pendingActions['bought_product' + purchase.id]">{{pendingActions['bought_product' + purchase.id]}}</h4>
+                  <h4 *ngIf="!pendingActions['bought_product' + purchase.id]">You have done everything</h4>
+              </div>
+            </div>
+      </div>
+</div>
+<app-rate [id]="currentPurchaseId" [action]="stringAction" (closeRate)="closeModalRate()" *ngIf="modalRate"></app-rate>

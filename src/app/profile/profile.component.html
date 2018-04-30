@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<div class="container-fluid container-fluid--profile">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="header-profile">
+        <h1>{{user.user.name}}</h1>
+        <div class="photo">
+          <img [src]="user.user.picture.url" height="100%" alt="" *ngIf="user.user.picture">
+        </div>
+        <div>
+          <p> <strong>email:</strong> {{user.user.email}}</p>
+          <p><strong>Seller score:</strong></p>
+          <bar-rating [(rate)]="sellerScore" [readOnly]="true" class="stars" [max]="5" [theme]="'bootstrap'"></bar-rating>
+        </div>
+        <div class="container-stars">
+          <p> <strong>Buyer score:</strong></p>
+          <bar-rating [(rate)]="buyerScore" [readOnly]="true" class="stars" [max]="5" [theme]="'bootstrap'"></bar-rating>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <app-profile-product [products]="products">
+      </app-profile-product>  
+    </div>
+  </div>
+</div>
