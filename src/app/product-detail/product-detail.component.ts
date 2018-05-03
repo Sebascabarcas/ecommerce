@@ -15,22 +15,27 @@ export class ProductDetailComponent implements OnInit {
   qty:any;
   bid:any;
   product:any;
-  currentUserId:any;
+  modalMessage = false
+  messages = []
   comments = []
   newComment = {}
-  
+  currentUserId:any;
+  userInfo:any;
+  role:any;
   
   constructor(private route: ActivatedRoute, private router: Router, private _product: ProductService, private _cart: CartService, private _auth: AuthService) { }
   
   ngOnInit() {
-    this.product = {product_picture: [], user: {}}
+    this.product = {product_picture: [], user: {}, category: ''}
     // this.product = {}
+    this.userInfo = JSON.parse(localStorage.getItem('auth'))
+    this.role = JSON.parse(localStorage.getItem('role')).role
     if (this._auth.loggedIn()) {
-      this.currentUserId = JSON.parse(localStorage.getItem('auth')).user_id
-
+      this.currentUserId = this.userInfo.user_id
     } else {
       this.currentUserId = "none"
     }
+
   // PRODUCT DETAILS SLICK
     $('#product-main-view').slick({
       infinite: true,
@@ -58,13 +63,12 @@ export class ProductDetailComponent implements OnInit {
     this._product.getProduct(id)
       .subscribe(
         res => {
-          console.log(res)
           this.product = res
-          console.log(this.product.cover.url)
-          if (this.product.bids) {
+          if (this.product.bids.length > 0) {
             this.bid = this.product.bids[this.product.bids.length-1].bid + 1
           } else {
             this.bid = this.product.price + 1
+            console.log("aja papa")
           }
           console.log(this.product)
         },
@@ -85,8 +89,10 @@ export class ProductDetailComponent implements OnInit {
   bidUp(bid) {
     if (this._auth.loggedIn()) {
       this._product.createBid({bid: bid}, this.product.id).subscribe(
-        res => console.log(res),
-        err => console.log(err)
+        res => {
+          this.openMessage("Bid made successfully")
+        },
+        err => this.openMessageErr(err)
       )
     } else {
       this.router.navigate(['login'])
@@ -104,8 +110,41 @@ export class ProductDetailComponent implements OnInit {
       )
   }
 
+  blockProduct(productId) {
+    this._auth.blockProduct(productId).subscribe (
+      res => this.openMessage("Product blocked successfully"),
+      err => this.openMessageErr(err)
+    )
+  }
+
+  unblockProduct(productId) {
+    this._auth.unblockProduct(productId).subscribe (
+      res => this.openMessage("Product unblocked successfully"),
+      err => this.openMessageErr(err)
+    )
+  }
 
   addToCart(qty) {
+    this.openMessage("Added to the cart")
     this._cart.addToCart(this.product, qty)
+  }
+
+  closeMessage() {
+    this.modalMessage = false
+    this.messages = []
+    location.reload()
+  }
+
+  openMessageErr(err) {
+    for (var key in err.error) {
+      console.log(key)
+      this.messages.push(err.error[key])
+    }
+    this.modalMessage = true
+  }
+  
+  openMessage(str) {
+    this.messages.push(str)
+    this.modalMessage = true
   }
 }

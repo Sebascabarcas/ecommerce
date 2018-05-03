@@ -1,0 +1,38 @@
+.main-title {
+    margin-top: 20px;
+    text-align: center;
+
+    &--products {
+        padding-left: 150px;
+    }
+}
+
+i {
+    cursor: pointer;
+}
+
+.users-container, .products-container {
+    // width: 30%;
+    overflow: hidden;
+    max-height: 500px;
+    border-radius: 30px;
+    // margin: 20px;
+    padding: 20px;
+    background-color: rgba(128, 128, 128, 0.306);
+    // background-color: black;
+    .single-user {
+        text-align: center;
+        // display: inline-block;
+        padding: 20px;
+    
+    }
+    
+    
+}
+
+.products-container--inner, .users-container--inner {
+    overflow-y: auto;
+    max-height: 466px;
+    // padding: 0 10px;
+    
+}

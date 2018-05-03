@@ -16,7 +16,7 @@ export class UserProductsComponent implements OnInit {
   products = []
   origins = []
   url = []
-  coverPhoto = []
+  // coverPhotoId = []
   file:any;
   modalDelete = false
   messages = [];
@@ -32,19 +32,20 @@ export class UserProductsComponent implements OnInit {
     this._auth.showUser(this.userInfo.user_id)
       .subscribe(
         res => {
-          console.log(res)
           this.products = res.product
-          // this.origins = res.product.origin
-          console.log(this.products)
+          for(var k in this.products) {
+            if (!this.products[k].cover && this.products[k].product_picture.length > 0) {
+              this.setCoverPhoto(this.products[k].product_picture[0].id)
+            }
+          }
         },
         err => console.log(err)
       )
 
-      
     
   }
 
-  onSelectFile(productId, event, i) {
+  onSelectFile(product, event, i, pictureId) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
 
@@ -52,9 +53,43 @@ export class UserProductsComponent implements OnInit {
 
       reader.onload = (event:any) => { // called once readAsDataURL is completed
         this.url[i] = event.target.result;
-        this.uploadCoverPhoto(productId, this.url[i])
+        console.log(pictureId)
+        if (i == 0) {
+          if (product.product_picture[0]) {
+            this.deletePhoto(pictureId)
+          }
+          // this.uploadCoverPhoto(productId, this.url[i])
+          this.uploadPhotos(product.id, {cover: this.url[i]})
+        } else {
+          if (i==1) {
+            if (product.product_picture[1]) {
+              this.deletePhoto(pictureId)
+            }
+            this.uploadPhotos(product.id, {image1: this.url[i]})
+            // this.product.image1 = event.target.result;
+          } else {
+            if (i==2) {
+              if (product.product_picture[2]) {
+                this.deletePhoto(pictureId)
+              }
+              this.uploadPhotos(product.id, {image2: this.url[i]})
+              // this.product.image2 = event.target.result;
+            } else {
+                if (product.product_picture[3]) {
+                  this.deletePhoto(pictureId)
+                }
+                this.uploadPhotos(product.id, {image3: this.url[i]})
+                // this.product.image3 = event.target.result;
+            }
+          }
+        }
+        // 
       }
     }
+  }
+
+  goToAddProduct() {
+    this.router.navigate(['product-add'])
   }
 
   goToEditProduct(productId) {
@@ -72,6 +107,16 @@ export class UserProductsComponent implements OnInit {
     this.currentProductId = productId
     // doFunction.make ? this.deleteProduct(doFunction.productId) : console.log("Hola")
     // this.modalDelete = false
+  }
+
+  setCoverPhoto(photoId) {
+    console.log("aqui")
+    this._product.setCoverPhoto(photoId).subscribe (
+      res => {
+        location.reload()
+      },
+      err => console.log(err)
+    )
   }
 
   closeMessage() {
@@ -106,9 +151,29 @@ export class UserProductsComponent implements OnInit {
     )
   }
 
-  uploadCoverPhoto(productId, photo) {
-    this._product.updateCoverPhoto(productId, {image: photo}).subscribe (
-      res => console.log(res),
+  uploadPhotos(productId, photo) {
+    this._product.uploadPictures(productId, photo).subscribe (
+      res => {
+        location.reload()
+      },
+      err => console.log(err)
+    )
+  }
+
+  deletePhoto(photoId) {
+    this._product.deletePicture(photoId).subscribe (
+      res => {
+        console.log(res)
+      },
+      err => console.log(err)
+    )
+  }
+
+  deletePhotoIcon(photoId) {
+    this._product.deletePicture(photoId).subscribe (
+      res => {
+        location.reload()
+      },
       err => console.log(err)
     )
   }

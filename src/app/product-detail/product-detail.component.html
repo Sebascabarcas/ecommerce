@@ -6,10 +6,18 @@
         <div class="row">
             <!--  Product Details -->
             <div class="product product-details clearfix">
+                    <div class="col-md-12" *ngIf="product.product_block || product.user.block">
+                        <!-- <div class="col-md-6 col-md-offset-3"> -->
+                              <div class="alert alert-danger alert-blocked" role="alert">
+                                <h2>BLOCKED</h2>
+                              </div>
+                        <!-- </div>  -->
+                    </div>
                 <div class="col-md-6">
                     <div id="product-main-view">
                         <div class="product-view">
                             <img src="{{product.cover.url}}" width="555" height="555" class="img-product" alt="" *ngIf="product.product_picture.length > 0">
+                            <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 1">
                         </div>
                         <!-- <div class="product-view">
                             <img [src]="product.product_picture[0].picture.url" width="555" height="555" class="img-product" alt="">
@@ -36,6 +44,7 @@
                     <div id="product-view">
                         <div class="product-view">
                             <img src="{{product.cover.url}}" alt="" *ngIf="product.product_picture.length > 0">
+                            <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" alt="" *ngIf="product.product_picture.length < 1">
                         </div>
                         <div class="product-view">
                                 <img [src]="product.product_picture[1].picture.url" alt="" *ngIf="product.product_picture.length > 1">
@@ -53,12 +62,16 @@
                 </div>
                 <div class="col-md-4 col-md-offset-2">
                     <div class="product-body">
+                        <!-- <div class="product-label" *ngIf="product.product_block || product.user.block">
+                            <span>Blocked</span>
+                        </div> -->
+                        <!-- <br> -->
                         <div class="product-label" *ngIf="product.is_auction">
                             <span class="sale">Auction</span>
                         </div>
                         <br>
                         <div class="product-label">
-                            <span>{{product.category | titlecase}} {{product.product_picture.length}}</span>
+                            <span>{{product.category | titlecase | categoryDisplay}}</span>
                         </div>
                         <h2 class="product-name">{{product.name}}</h2>
                         <h3 class="product-price">{{product.price | currency:'COP ':true:'1.0'}}</h3>
@@ -76,6 +89,7 @@
                         <p><strong>Brand:</strong> E-SHOP</p>
                         <p><strong>Description:</strong> {{product.description}}</p>
                         <p><strong>Shipping description:</strong> {{product.shipping_description}}</p>
+                        <p><strong>Owner:</strong><a href="#/profile/{{product.user.id}}"> {{product.user.username}}</a></p>
                         <!-- <div class="product-options"> -->
                             <!-- <ul class="size-option">
                                 <li><span class="text-uppercase">Size:</span></li>
@@ -97,7 +111,7 @@
                                 <span class="text-uppercase">QTY: </span>
                                 <input class="input" type="number">
                             </div> -->
-                            <div class="qty-input" *ngIf="!product.is_auction && product.user.id != currentUserId">
+                            <div class="qty-input" *ngIf="!product.is_auction && product.user.id != currentUserId && !product.product_block && !product.user.block">
 									<span class="text-uppercase">QTY: </span>
 									<input class="input" type="number" [(ngModel)]="qty" min="1" value="{{qty}}" >
                                     <button class="primary-btn add-to-cart" (click)="addToCart(qty)" *ngIf="!product.is_auction"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
@@ -106,15 +120,19 @@
                             <!-- <p><strong>Last bid: </strong>{{product.last_bid}} COP</p> -->
                             <div class="product-label" *ngIf="product.is_auction">
                                 <strong>Last bid:</strong> 
-                                <span *ngIf="product.bids"> {{product.bids[product.bids.length- 1].bid | currency: 'COP '}}</span>
-                                <span *ngIf="!product.bids"> {{ product.price | currency: 'COP '}}</span>
+                                <span *ngIf="product.bids.length > 0"> {{product.bids[product.bids.length- 1].bid | currency: 'COP ' : true:'1.0'}}</span>
+                                <span *ngIf="product.bids.length == 0"> {{ product.price | currency: 'COP ' : true:'1.0'}}</span>
                             </div>
                             <br>
-                            <div class="qty-input" *ngIf="product.is_auction && product.user.id != currentUserId ">
+                            <div class="qty-input" *ngIf="product.is_auction && product.user.id != currentUserId && !product.product_block && !product.user.block">
                                 <span class="text-uppercase">Ofert: </span>
                                 <input class="input" type="number" [(ngModel)]="bid" min="{{bid}}" value="{{bid}}" >
                             </div>
-                            <button class="primary-btn add-to-cart" (click)="bidUp(bid)" *ngIf="product.is_auction && product.user.id != currentUserId"><i class="fa fa-money"></i> Bid Up</button>
+                            <button class="primary-btn add-to-cart" (click)="bidUp(bid)" *ngIf="product.is_auction && product.user.id != currentUserId && !product.product_block && !product.user.block"><i class="fa fa-money"></i> Bid Up</button>
+                            <br>
+                            <br>
+                            <button class="primary-btn add-to-cart" (click)="blockProduct(product.id)" *ngIf="role == 'admin' && !product.product_block && !product.user.block"><i class="fa fa-ban"></i> Block product</button>
+                            <button class="primary-btn add-to-cart" (click)="blockProduct(product.id)" *ngIf="role == 'admin' && product.product_block && !product.user.block"><i class="fa fa-ban"></i> Unblock product</button>
                             <!-- <div class="pull-right">
                                 <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
                                 <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
@@ -195,3 +213,4 @@
     <!-- /container -->
 </div>
 <!-- /section -->
+<app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>

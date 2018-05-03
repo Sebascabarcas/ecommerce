@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
       this._auth.showUser(this.userInfo.user_id).subscribe (
         res => {
           this.userInfo.username = res.user.username
-          this.userInfo.role = res.user.role
+          localStorage.setItem('role', JSON.stringify({role: res.user.role}))
           if (!this.userInfo.profilePhoto && res.user.picture) {
             this.userInfo.profilePhoto = res.user.picture.url
           }
@@ -49,6 +49,10 @@ export class NavbarComponent implements OnInit {
         },
         err => console.log(err)
       )
+    }
+
+    if (Object.keys(this.userInfo).length == 0) {
+      localStorage.setItem('role', JSON.stringify({role: 'guess'}))
     }
 
     console.log(this.logged)

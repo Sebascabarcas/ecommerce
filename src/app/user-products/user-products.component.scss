@@ -65,4 +65,36 @@
     padding-bottom: 8px;
     font-size: 20px;
 }
+img {
+    cursor: pointer;
+}
+.fa-size--secondary-photos {
+    font-size: 90px;
+}
 
+.secondary-photos {
+    label {
+        cursor: pointer;
+        vertical-align: bottom;
+    }
+}
+
+.delete-photo {
+    cursor: pointer;
+    transition: all 1s;
+    &:hover {
+        transform: scale(1.5)
+    }
+    // z-index: 100;
+}
+
+.delete-cover {
+    cursor: pointer;
+    vertical-align: top;
+    padding-top: 10px;
+    padding-right: 14px;
+    transition: all 1s;
+    &:hover {
+        transform: scale(1.5)
+    }
+}

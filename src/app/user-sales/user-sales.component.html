@@ -1,5 +1,9 @@
 <app-navbar></app-navbar>
 <div class="container-fluid container-fluid--my-purchases">
+<div class="no-info" *ngIf="sales.length == 0">
+    <h1>You have no sales yet</h1>
+    <button class="btn btn-primary" (click)="goToShop()">Take a look to the shop</button>
+</div>
 <div class="row" *ngFor="let sale of sales">
     <div class="col-md-9">
         <div class="panel panel-default">
@@ -18,7 +22,8 @@
                     <div class="col-md-3">
                        <strong> SHIP TO: </strong> 
                         <br>
-                        {{sale.destiny.address}}
+                        <p *ngIf="sale.destiny">{{sale.destiny.address}}</p>
+                        <p *ngIf="!sale.destiny">Waiting address</p>
                     </div>
                     <div class="col-md-3">
                     <strong> SALE # {{sale.id}} </strong> 
@@ -30,14 +35,15 @@
                     <div class="col-md-3">
                         <div class="img-container--history">
                             <i class="fa fa-"></i>
-                            <img [src]="sale.product.cover.url" height="100" alt="">
+                            <img [src]="sale.product.cover.url" height="100" alt="" *ngIf="sale.product.cover">
+                            <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" height="100" alt="" *ngIf="!sale.product.cover">
                         </div>
                         <!-- {{sale.cover.url}} -->
                     </div>
                     <div class="col-md-5">
                         <h4>{{sale.product.name | titlecase}}</h4> 
                         <!-- <br> -->
-                         <p><strong>Buy by:</strong> <a href="profile/{{sale.buyer.id}}">{{sale.buyer.username}}</a></p>
+                         <p><strong>Buy by:</strong> <a href="#/profile/{{sale.buyer.id}}">{{sale.buyer.username}}</a></p>
                         <!-- <br> -->
                         <p><strong>Price:</strong>  {{sale.product.price | currency : 'COP ' : true:'1.0'}}</p>
                         <p><strong> Quantity:</strong> {{sale.quantity}}</p>

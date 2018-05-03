@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Product } from './product';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ProductService {
@@ -12,7 +13,8 @@ export class ProductService {
   private _baseUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/products"
   private _searchUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/search"
   private _bidsUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/bids"
-  constructor(private http: HttpClient, private _auth: AuthService) { }
+  private _productPhotoUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/product_picture"
+  constructor(private http: HttpClient, private _auth: AuthService, private router: Router) { }
   
   getProducts (): Observable<Product[]> {
     return this.http.get<Product>(this._baseUrl)
@@ -64,9 +66,21 @@ export class ProductService {
                 .catch(this.errorHandler);
   }
 
-  updateCoverPhoto (productId, photo): Observable<any> {
+  setCoverPhoto (photoId): Observable<any> {
     var reqHeader = new HttpHeaders(this._auth.getHeader())
-    return this.http.put<any>(this._baseUrl + '/' + productId + '/cover_pictures', photo,  {headers: reqHeader})
+    return this.http.put<any>(this._productPhotoUrl + '/' + photoId + '/set_cover', {}, {headers: reqHeader})
+                .catch(this.errorHandler);
+  }
+
+  uploadPictures (productId, photos): Observable<any> {
+    var reqHeader = new HttpHeaders(this._auth.getHeader())
+    return this.http.put<any>(this._baseUrl + '/' + productId + '/upload_pictures', photos,  {headers: reqHeader})
+                .catch(this.errorHandler);
+  }
+
+  deletePicture (photoId): Observable<any> {
+    var reqHeader = new HttpHeaders(this._auth.getHeader())
+    return this.http.delete<any>(this._productPhotoUrl + '/' + photoId,  {headers: reqHeader})
                 .catch(this.errorHandler);
   }
 
@@ -87,6 +101,25 @@ export class ProductService {
   }
 
   errorHandler(error: HttpErrorResponse) {
+    let _router = this.router
+    if (error.error.authentication) {
+      if (error.error.authentication.includes("invalid token")) {
+        localStorage.removeItem('auth')
+        localStorage.removeItem('amount')
+        localStorage.removeItem('cart')
+        localStorage.removeItem('search')
+        location.reload()
+        // _router.navigate(['login'])
+      }
+      if (error.error.authentication.includes("user not found")) {
+        localStorage.removeItem('auth')
+        localStorage.removeItem('amount')
+        localStorage.removeItem('cart')
+        localStorage.removeItem('search')
+        location.reload()
+        // _router.navigate(['login'])
+      }
+    }
     return Observable.throw(error || "Server error")
   }
 

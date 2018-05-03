@@ -1,5 +1,9 @@
 <app-navbar></app-navbar>
 <div class="container-fluid container-fluid--my-purchases">
+    <div class="no-info" *ngIf="bids.length == 0">
+        <h1>You have no bids yet</h1>
+        <button class="btn btn-primary" (click)="goToShop()">Take a look to the shop</button>
+    </div>
   <div class="row" *ngFor="let bid of bids">
       <div class="col-md-7 col-md-offset-1">
           <div class="panel panel-default">
@@ -30,18 +34,19 @@
                   <div class="row">
                       <div class="col-md-3">
                             <div class="img-container--history">
-                                <i class="fa fa-"></i>
-                                <!-- <img [src]="bid.product.cover.url" height="100" alt=""> -->
+                                <img [src]="purchase.product.cover.url" height="100" alt="" *ngIf="bid.product.cover">
+                                <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" height="100%" alt="" *ngIf="!bid.product.cover">
                             </div>
                       </div>
                       <div class="col-md-5">
                             <h4>{{bid.product.name | titlecase}}</h4> 
-                             <p><strong>Sold by:</strong> <a href="profile/{{bid.user.id}}">{{bid.user.username}}</a></p>
+                             <p><strong>Sold by:</strong> <a href="#/profile/{{bid.user.id}}">{{bid.user.username}}</a></p>
                             <p><strong>Price:</strong>  {{bid.product.price | currency : 'COP ' : true:'1.0'}}</p>
                       </div>
                       <div class="col-md-3 col-md-offset-1">
-                          <button class="btn btn-primary btn--purchases" (click)="goToBid(bid.product.id)">Go to bid again</button>
                           <br>
+                          <br>
+                          <button class="btn btn-primary btn--purchases" (click)="goToBid(bid.product.id)">Go to bid again</button>
                           <!-- <button class="btn btn-primary btn--purchases">View product</button> -->
                       </div>
                   </div>
@@ -50,11 +55,12 @@
       </div>
       <div class="col-md-3">
             <div class="panel panel-default panel--status">
-              <div class="panel-heading panel-heading--actions">
+              <div class="panel-heading panel-heading--actions panel-heading--actions-bids">
                 <h4>Status</h4>
               </div>
-              <div class="panel-body panel-body--actions">
-                  <h4>Message</h4>
+              <div class="panel-body panel-body--actions panel-body--actions-bids">
+                  <h4 *ngIf="bid.product.bids[bid.product.bids.length - 1].user_id == currentUserId">You have the highest bid</h4>
+                  <h4 *ngIf="bid.product.bids[bid.product.bids.length - 1].user_id != currentUserId">Someone has bid more than you</h4>
               </div>
             </div>
       </div>

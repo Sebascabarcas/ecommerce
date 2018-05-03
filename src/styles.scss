@@ -69,6 +69,30 @@ body {
     overflow-x: hidden;
   }
   
+ /* Let's get this party started */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #f1f1f1; 
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    background: #888; 
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  }
+  ::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255,0,0,0.4); 
+  }
+  
   h1, h2, h3, h4, h5, h6 {
     color: #30323A;
     margin: 0 0 10px;
@@ -410,7 +434,7 @@ body {
   .header-btns>li {
     display: inline-block;
     vertical-align: top;
-    padding: 15px 0px;
+    padding: 15px 10px;
   }
   
   .header-btns>li+li {
@@ -946,6 +970,7 @@ body {
   .product.product-single .product-thumb {
     position: relative;
     margin-bottom: 15px;
+    min-height: 281px;
   }
   
   .product.product-single .product-thumb>img {
@@ -1008,6 +1033,7 @@ body {
   }
   
   .product.product-single .product-body {
+    min-height: 140px;
     padding: 15px;
   }
   
@@ -1945,15 +1971,46 @@ body {
   }
 
   /*=========================================================
+  ADMIN VIEW
+  ===========================================================*/
+
+  // .products-container--inner {
+  //   overflow-y: scroll;
+  //   max-height: 316px;
+  //   // padding: 0 10px;
+  //   &::-webkit-scrollbar-track {
+  //       background: #f1f1f1 !important; 
+  //   }
+    
+  //   &::-webkit-scrollbar-thumb {
+  //       background: #888 !important; 
+  //   }
+
+  //   &::-webkit-scrollbar-thumb:hover {
+  //       background: #555 !important; 
+  //   }
+  // }
+
+  /*=========================================================
   ACTIONS
   ===========================================================*/
 
   .panel-heading--actions {
-    padding: 15px 15px;
+    // padding: 15px 15px;
+    padding: 20.6px 15px;
+    &-bids {
+      padding: 14.6px 15px;
+    }
   }
 
   .panel-body--actions {
-    padding: 49px 15px;
+    // padding: 49px 15px;
+    padding: 68px 15px;
+    max-height: 146px;
+    &-bids {
+      max-height: 170px;
+      
+    }
   }
 
   /*=========================================================
@@ -2002,6 +2059,20 @@ body {
   /*=========================================================
   EXTRAS
   ===========================================================*/
+
+  .no-info {
+    margin-top: 100px;
+    text-align: center;
+    h1 {
+      font-size: 70px !important;
+      margin-bottom: 40px;
+    }
+    
+    button {
+      font-size: 25px !important;
+
+    }
+  }
 
   .product-label--owner {
     span {

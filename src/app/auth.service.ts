@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private _baseUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/users"
+  private _baseProductUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/products"
   private _sessionUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/sessions"
   private _baseSalesUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/user_sales"
   private _buyerScoreUrl = "http://ec2-18-219-200-51.us-east-2.compute.amazonaws.com:5006/buyer_score"
@@ -40,9 +41,14 @@ export class AuthService {
     .catch(this.errorHandler);
   }
   
+  getUsers() {
+    return this.http.get<any>(this._baseUrl + '/')
+    .catch(this.errorHandler);
+  }
+  
+  
   showUser(userId) {
-    var reqHeader = new HttpHeaders(this.getHeader())
-    return this.http.get<any>(this._baseUrl + '/' + userId, {headers: reqHeader})
+    return this.http.get<any>(this._baseUrl + '/' + userId)
     .catch(this.errorHandler);
   }
   
@@ -75,6 +81,7 @@ export class AuthService {
     return this.http.put<any>(this._sellerScoreUrl + '/' + saleId, score, {headers: reqHeader})
     .catch(this.errorHandler);
   }
+
   getBuyerScore (userId): Observable<any> {
     return this.http.get<any>(this._userBuyerScoreUrl + '/' + userId)
     .catch(this.errorHandler);
@@ -96,7 +103,6 @@ export class AuthService {
     return this.http.put<any>(this._deliveredUrl + '/' + purchaseId, {}, {headers: reqHeader})
     .catch(this.errorHandler);
   }
-
   
   pendingActions (): Observable<any> {
     var reqHeader = new HttpHeaders(this.getHeader())
@@ -104,7 +110,35 @@ export class AuthService {
     .catch(this.errorHandler);
   }
 
+  getBlockUsers (): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.get<any>(this._baseUrl + '/blocks/admin', {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
 
+  blockUser (userId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._baseUrl + '/' + userId + '/block', {}, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+
+  unblockUser (userId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._baseUrl + '/' + userId + '/unblock', {}, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+
+  blockProduct (productId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._baseProductUrl + '/' + productId + '/block', {}, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
+
+  unblockProduct (productId): Observable<any> {
+    var reqHeader = new HttpHeaders(this.getHeader())
+    return this.http.put<any>(this._baseProductUrl + '/' + productId + '/unblock', {}, {headers: reqHeader})
+    .catch(this.errorHandler);
+  }
 
   loggedIn() {
     return !!localStorage.getItem('auth')
@@ -128,10 +162,23 @@ export class AuthService {
 
   errorHandler(error: HttpErrorResponse) {
     let _router = this.router
-    if (error.error.errors.includes("invalid token")) {
-      localStorage.removeItem('auth')
-      localStorage.removeItem('amount')
-      _router.navigate(['login'])
+    if (error.error.authentication) {
+      if (error.error.authentication.includes("invalid token")) {
+        localStorage.removeItem('auth')
+        localStorage.removeItem('amount')
+        localStorage.removeItem('cart')
+        localStorage.removeItem('search')
+        location.reload()
+        // _router.navigate(['login'])
+      }
+      if (error.error.authentication.includes("user not found")) {
+        localStorage.removeItem('auth')
+        localStorage.removeItem('amount')
+        localStorage.removeItem('cart')
+        localStorage.removeItem('search')
+        location.reload()
+        // _router.navigate(['login'])
+      }
     }
     // console.log(error.statusText)
     // console.log(error.headers)

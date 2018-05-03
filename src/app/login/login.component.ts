@@ -12,24 +12,22 @@ export class LoginComponent implements OnInit {
 
   user = {}
   errors = {}
+  messages = []
+  modalMessage = false
   constructor(private _auth: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
   loginUser(user) {
-    console.log(user)
     if (user.account.includes("@")) {
       user.email = user.account
     } else {
       user.username = user.account
     }
-    console.log(user)
     this._auth.loginUser(user)
       .subscribe(
         res => {
-          console.log(user)
-          console.log(res)
           let auth = {
             token: res.secret,
             user_id: res.user_id,
@@ -47,8 +45,27 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/shop'])
           }
         },
-        err => this.errors = err.error
+        err => {
+          // console.log(err)
+          this.openMessage(err)
+        }
       )
   }
+
+  openMessage(err) {
+    // console.log(err)
+    for (var key in err.error) {
+      // console.log(key)
+      this.messages.push(err.error[key])
+    }
+    this.modalMessage = true
+  }
+
+  closeMessage() {
+    this.modalMessage = false
+    this.messages = []
+    // this.goBack()
+  }
+
 
 }

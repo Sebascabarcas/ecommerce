@@ -1,5 +1,9 @@
 <app-navbar></app-navbar>
 <div class="container-fluid container-fluid--my-purchases">
+<div class="no-info" *ngIf="purchases.length == 0">
+    <h1>You have no purchases yet</h1>
+    <button class="btn btn-primary" (click)="goToShop()">Take a look to the shop</button>
+</div>
 <div class="row" *ngFor="let purchase of purchases">
     <div class="col-md-9">
         <div class="panel panel-default">
@@ -16,9 +20,10 @@
                         {{ purchase.total_price | currency : 'COP ' : true:'1.0'}}
                     </div>
                     <div class="col-md-3">
-                       <strong> SHIP TO: </strong> 
+                       <strong> DELIVER TO: </strong> 
                         <br>
-                        {{purchase.destiny.address}}
+                        <p *ngIf="purchase.destiny">{{purchase.destiny.address}}</p>
+                        
                     </div>
                     <div class="col-md-3">
                     <strong> ORDER # {{purchase.id}} </strong> 
@@ -29,24 +34,70 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="img-container--history">
-                            <i class="fa fa-"></i>
-                            <img [src]="purchase.product.cover.url" height="100" alt="">
+                            <img [src]="purchase.product.cover.url" height="100" alt="" *ngIf="purchase.product.cover">
+                            <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" height="100" alt="" *ngIf="!purchase.product.cover">
                         </div>
                         <!-- {{purchase.cover.url}} -->
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-3" *ngIf="!purchase.destiny">
                         <h4>{{purchase.product.name | titlecase}}</h4> 
                         <!-- <br> -->
-                         <p><strong>Sold by:</strong> <a href="profile/{{purchase.seller.id}}">{{purchase.seller.username}}</a></p>
+                        <p><strong>Sold by:</strong> <a href="#/profile/{{purchase.seller.id}}">{{purchase.seller.username}}</a></p>
                         <!-- <br> -->
                         <p><strong>Price:</strong>  {{purchase.product.price | currency : 'COP ' : true:'1.0'}}</p>
                         <p><strong> Quantity:</strong> {{purchase.quantity}}</p>
                     </div>
-                    <div class="col-md-3 col-md-offset-1">
+                    <div class="col-md-5" *ngIf="purchase.destiny">
+                            <h4>{{purchase.product.name | titlecase}}</h4> 
+                            <!-- <br> -->
+                            <p><strong>Sold by:</strong> <a href="#/profile/{{purchase.seller.id}}">{{purchase.seller.username}}</a></p>
+                            <!-- <br> -->
+                            <p><strong>Price:</strong>  {{purchase.product.price | currency : 'COP ' : true:'1.0'}}</p>
+                            <p><strong> Quantity:</strong> {{purchase.quantity}}</p>
+                    </div>
+                    <div class="col-md-3" *ngIf="!purchase.destiny">
+                            <div class="section-origins">
+                                    <div class="shipping-title">
+                                      <h3>Shipping addresses</h3>
+                                    </div>
+                                    <div class="no-origins" *ngIf="origins.length < 1">
+                                      <p>You don´t have any shipping address added</p>
+                                    </div>
+                                    <div class="origins-container" *ngIf="origins.length > 0">
+                                      <hr>
+                                      <div class="single-origin" *ngFor="let origin of origins; let i = index">
+                                        <div class="row row-origin">
+                                          <div class="col-md-10">
+                                            <div class="origin-header">
+                                              <p><strong>{{origin.address}}</strong></p>
+                                              <p>{{origin.state}}, {{origin.city}}</p>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-1">
+                                            <div class="dropdown dropdown-address dropdown-input">
+                                                <!-- <input type="radio" class="" name="destiny"> -->
+                                                <input type="radio" id="destined" name="destined" [value]="origin.id" #destined="ngModel" [(ngModel)]="destiny" *ngIf="i == 0">
+                                                <input type="radio" name="destined" [value]="origin.id" #destined="ngModel" [(ngModel)]="destiny" *ngIf="i != 0">
+                                        </div>
+                                     </div>
+                                    </div>
+                                    <hr>
+                                    <button class="btn btn-primary" (click)="setAddress(purchase.product.id, destiny)" [disabled]="!destiny" *ngIf="!purchase.destiny">Choose address</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" *ngIf="!purchase.destiny">
                         <button class="btn btn-primary btn--purchases" (click)="goToFeedback(purchase.id)" [disabled]="!purchase.was_delivered || purchase.seller_score">Leave seller feedback</button>
                         <br>
                         <br>
-                        <button class="btn btn-primary btn--purchases" (click)="setDelivered(purchase.id)" [disabled]="purchase.was_delivered">Received</button>
+                        <button class="btn btn-primary btn--purchases" (click)="setDelivered(purchase.id)" [disabled]="!purchase.was_shipped || purchase.was_delivered">Received</button>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1" *ngIf="purchase.destiny">
+                        <button class="btn btn-primary btn--purchases" (click)="goToFeedback(purchase.id)" [disabled]="!purchase.was_delivered || purchase.seller_score">Leave seller feedback</button>
+                        <br>
+                        <br>
+                        <button class="btn btn-primary btn--purchases" (click)="setDelivered(purchase.id)" [disabled]="!purchase.was_shipped || purchase.was_delivered">Received</button>
                     </div>
                 </div>
             </div>

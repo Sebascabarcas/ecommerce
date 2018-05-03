@@ -1,7 +1,11 @@
 <app-navbar></app-navbar>
 <div class="container-fluid container-fluid--my-purchases">
+    <div class="no-info" *ngIf="bids.length == 0">
+            <h1>Nobody has bid your product yet</h1>
+            <button class="btn btn-primary" (click)="goToShop()">Take a look to the shop</button>
+    </div>
     <div class="row">
-        <div class="col-md-2 col-md-offset-5">
+        <div class="col-md-2 col-md-offset-5" *ngIf="bids.length > 0">
             <button class="btn btn-primary btn--purchases" *ngIf="bids[0].product.stock != 0" (click)="finishAuction()">Finish auction</button>
         </div>
     </div>
@@ -35,13 +39,13 @@
                     <div class="row">
                         <div class="col-md-3">
                                 <div class="img-container--history">
-                                    <i class="fa fa-"></i>
-                                    <img [src]="currentProductPhoto.url" height="100" alt="">
+                                    <img [src]="purchase.product.cover.url" height="100" alt="" *ngIf="bid.product.cover">
+                                    <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" height="100%" alt="" *ngIf="!bid.product.cover">
                                 </div>
                         </div>
                         <div class="col-md-5">
                                 <h4>{{bid.product.name | titlecase}}</h4> 
-                                <p><strong>Bid by:</strong> <a href="profile/{{bid.user.id}}">{{bid.user.username}}</a></p>
+                                <p><strong>Bid by:</strong> <a href="#/profile/{{bid.user.id}}">{{bid.user.username}}</a></p>
                                 <p><strong>Price:</strong>  {{bid.product.price | currency : 'COP ' : true:'1.0'}}</p>
                         </div>
                         <div class="col-md-3 col-md-offset-1">

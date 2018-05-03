@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { PurchaseService } from '../purchase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-sales',
@@ -13,7 +14,7 @@ export class UserSalesComponent implements OnInit {
   currentSaleId:any;
   modalRate = false
   stringAction = 'buyer'
-  constructor(private _auth: AuthService, private _purchase: PurchaseService) { }
+  constructor(private _auth: AuthService, private router: Router, private _purchase: PurchaseService) { }
 
   ngOnInit() {  
     this._purchase.getSales().subscribe (
@@ -34,6 +35,10 @@ export class UserSalesComponent implements OnInit {
       },
       err => console.log(err)
     )
+  }
+
+  goToShop(){
+    this.router.navigate(['shop'])
   }
 
   goToFeedback(saleId){

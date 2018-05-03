@@ -110,7 +110,9 @@ export class OriginAddComponent implements OnInit {
 
   addOrigin() {
     this._origin.createOrigin(this.newOrigin).subscribe(
-      res => console.log(res),
+      res => {
+        location.reload()
+      },
       err => console.log(err)
     )
     this.showPopup = false; 

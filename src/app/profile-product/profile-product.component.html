@@ -11,8 +11,9 @@
             <!-- <div class="row"> -->
               <div class="col-md-4 col-product">
                 <div class="container-photo">
-                  <!-- <h4 class="title-user-products">Product photo</h4> -->
-                  <img [src]="product.product_picture[0].picture.url" height="100%" alt="" *ngIf="product.product_picture">
+                  <!-- <h4 class="title-user-products">Product photo {{product | json}}</h4> -->
+                  <img [src]="product.product_picture[0].picture.url" height="80%" alt="" *ngIf="product.product_picture.length > 0">
+                  <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" height="80%" alt="" *ngIf="product.product_picture.length < 1">
                 </div>
               </div>
               <div class="col-md-4 col-product">
@@ -21,9 +22,9 @@
                   <h4 class="title-user-products">{{product.price | currency : 'COP ' : true:'1.0'}}</h4>
                 </div>
               </div>
-              <div class="col-md-4 col-product">
+              <div class="col-product">
                 <div class="container-button">
-                  <button class="btn btn-primary">View product</button>
+                  <button class="btn btn-primary" (click)="goToProductDetails(product.id)">View product</button>
                 </div>
               </div>
               <!-- </div> -->

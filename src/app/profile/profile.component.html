@@ -3,10 +3,21 @@
   <div class="row">
     <div class="col-md-7">
       <div class="header-profile">
+        <div class="col-md-12" *ngIf="user.user.block">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="alert alert-danger" role="alert">
+              <h4>BLOCKED</h4>
+            </div>
+          </div> 
+        </div>
         <h1>{{user.user.name}}</h1>
         <div class="photo">
-          <img [src]="user.user.picture.url" height="100%" alt="" *ngIf="user.user.picture">
+          <!-- <img [src]="user.user.picture.url" height="100%" alt="" *ngIf="user.user.picture"> -->
+          <img src="{{user.user.picture.url}}" height="100%" class="img-rounded" alt="" *ngIf="user.user.picture">
+          <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" height="100%" class="img-rounded" alt="" *ngIf="!user.user.picture">
         </div>
+        <button class="primary-btn add-to-cart" (click)="blockUser(user.user.id)" *ngIf="role == 'admin' && !user.user.block"><i class="fa fa-ban"></i> Block user</button>
+        <button class="primary-btn add-to-cart" (click)="unblockUser(user.user.id)" *ngIf="role == 'admin' && user.user.block"><i class="fa fa-ban"></i> Unblock user</button>
         <div>
           <p> <strong>email:</strong> {{user.user.email}}</p>
           <p><strong>Seller score:</strong></p>
@@ -17,6 +28,7 @@
           <bar-rating [(rate)]="buyerScore" [readOnly]="true" class="stars" [max]="5" [theme]="'bootstrap'"></bar-rating>
         </div>
       </div>
+      
     </div>
     <div class="col-md-5">
       <app-profile-product [products]="products">
@@ -24,3 +36,4 @@
     </div>
   </div>
 </div>
+<app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>

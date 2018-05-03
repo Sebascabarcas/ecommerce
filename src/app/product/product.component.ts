@@ -17,8 +17,8 @@ export class ProductComponent implements OnInit {
   messages = []
   currentUserId = {}
   minRange = 1;
-  maxRange = 10000000;
-  someRange = [1,10000000]
+  maxRange = 5000000;
+  someRange = [1,5000000]
   modalMessage = false
   category:any;
   keyword:any;
@@ -63,7 +63,6 @@ export class ProductComponent implements OnInit {
   }
 
   onChange(e) {
-    console.log("hola")
     this.minRange = e[0]
     this.maxRange = e[1]
   }

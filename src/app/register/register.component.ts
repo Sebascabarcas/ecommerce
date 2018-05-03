@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from "../auth.service";
 import { NavbarComponent } from '../navbar/navbar.component';
-import { EmailValidator } from '@angular/forms';
+import { EmailValidator, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   @ViewChild('fileInput') fileInput;
-  newUser = {gender: 'other', image: ''}  
+  newUser = {gender: 'other', image: '', name:'', username:'', password:'', email: '',birthdate: '', company: false}  
   errors = {}
   url = ''
   image = false
@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   constructor(private _auth: AuthService, private router: Router) { }
 
   ngOnInit() {
+    // FormControl.
     // this.errors= errors  
   }
 

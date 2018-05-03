@@ -11,18 +11,23 @@ export class ProfileComponent implements OnInit {
 
   user = {}
   products = []
+  modalMessage = false
+  messages = []
   buyerScore:any;
   sellerScore:any;
+  userInfo:any;
+  role:any;
   constructor(private _auth: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.userInfo = JSON.parse(localStorage.getItem('auth'))
+    this.role = JSON.parse(localStorage.getItem('role')).role
+    this.user = {user: {}}
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
     this._auth.showUser(id).subscribe(
       res => {
         this.user = res
-        console.log(res)
         this.products = res.product
-        console.log(this.products)
       },
       err => console.log(err)
     )
@@ -40,6 +45,39 @@ export class ProfileComponent implements OnInit {
         this.sellerScore = 0
       }
     )
+  }
+
+  closeMessage() {
+    this.modalMessage = false
+    this.messages = []
+    location.reload()
+  }
+
+  openMessageErr(err) {
+    for (var key in err.error) {
+      console.log(key)
+      this.messages.push(err.error[key])
+    }
+    this.modalMessage = true
+  }
+  
+  openMessage(str) {
+    this.messages.push(str)
+    this.modalMessage = true
+  }
+
+  blockUser(userId) {
+   this._auth.blockUser(userId).subscribe (
+     res => this.openMessage("User blocked successfully"),
+     err => this.openMessageErr(err)
+   ) 
+  }
+
+  unblockUser(userId) {
+   this._auth.unblockUser(userId).subscribe (
+     res => this.openMessage("User unblocked successfully"),
+     err => this.openMessageErr(err)
+   ) 
   }
 
 }

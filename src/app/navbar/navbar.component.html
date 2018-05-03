@@ -102,14 +102,14 @@
                 </div>
                 <strong class="text-uppercase" *ngIf="logged">{{userInfo.username}}<i class="fa fa-caret-down"></i></strong>
               </div>
-              <a href="/login" class="text-uppercase" *ngIf="!logged">Login /</a>  <a href="/register" class="text-uppercase" *ngIf="!logged">Join</a>
+              <a href="#/login" class="text-uppercase" *ngIf="!logged">Login /</a>  <a href="#/register" class="text-uppercase" *ngIf="!logged">Join</a>
               <ul class="custom-menu" *ngIf="logged">
-                <li><a href="/my-profile"><i class="fa fa-user-o"></i> My Account</a></li>
-                <li><a href="/my-products"><i class="fa fa-desktop"></i>My Products</a></li>
-                <li><a href="/my-bids"><i class="fa fa-money"></i>My Bids</a></li>
-                <li><a href="/my-purchases"><i class="fa fa-archive"></i>My Purchases</a></li>
-                <li><a href="/my-sales"><i class="fa fa-handshake-o"></i>My Sales</a></li>
-                <li><a href="/product-add"><i class="fa fa-plus"></i> Add Product</a></li>
+                <li><a href="#/my-profile"><i class="fa fa-user-o"></i> My Account</a></li>
+                <li><a href="#/my-products"><i class="fa fa-desktop"></i>My Products</a></li>
+                <li><a href="#/my-bids"><i class="fa fa-money"></i>My Bids</a></li>
+                <li><a href="#/my-purchases"><i class="fa fa-archive"></i>My Purchases</a></li>
+                <li><a href="#/my-sales"><i class="fa fa-handshake-o"></i>My Sales</a></li>
+                <li><a href="#/product-add"><i class="fa fa-plus"></i> Add Product</a></li>
                 <li><a (click)="logOut()"><i class="fa fa-sign-out"></i> Log Out</a></li>
                 <!-- For make something appears like loading use fa-spinner fa-pulse -->
                 <!-- <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li> -->
@@ -137,6 +137,7 @@
                     <div class="product product-widget" *ngFor="let product of productsCart; let i = index">
                       <div class="product-thumb">
                         <img [src]="product.cover.url" alt="" *ngIf="product.cover">
+                        <img src="http://res.cloudinary.com/johndbr/image/upload/v1525053741/No_image_foung.jpg" height="55" alt="" *ngIf="!product.cover">
                       </div>
                       <div class="product-body">
                         <h3 class="product-price">{{product.price | currency : 'COP ' : true: '1.0'}} <span class="qty">x{{product.quantity}}</span></h3>

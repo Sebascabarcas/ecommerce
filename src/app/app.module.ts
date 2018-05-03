@@ -41,6 +41,9 @@ import { RateComponent } from './rate/rate.component';
 import { NouisliderModule } from 'ng2-nouislider';
 import { FilterJsonPipe } from './filter-json.pipe';
 import { AdminViewComponent } from './admin-view/admin-view.component';
+import { CategoryDisplayPipe } from './category-display.pipe';
+import { NotOwnerPipe } from './not-owner.pipe';
+import { NoCoverImagePipe } from './no-cover-image.pipe';
 
 
 @NgModule({
@@ -70,7 +73,10 @@ import { AdminViewComponent } from './admin-view/admin-view.component';
     ModalMessageComponent,
     RateComponent,
     FilterJsonPipe,
-    AdminViewComponent
+    AdminViewComponent,
+    CategoryDisplayPipe,
+    NotOwnerPipe,
+    NoCoverImagePipe
   ],
   imports: [
     AgmCoreModule.forRoot({

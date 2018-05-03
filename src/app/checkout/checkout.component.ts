@@ -19,26 +19,34 @@ export class CheckoutComponent implements OnInit {
   modalMessage = false;
   destiny:any;
   amount:any;
+  userInfo:any;
 
   constructor(private _cart: CartService, private _purchase: PurchaseService, private _origin: OriginService, private router: Router) { }
 
   ngOnInit() {
-    console.log(this._cart)
-    console.log(this._purchase)
-    this.products = JSON.parse(localStorage.getItem('cart'))
+    this.userInfo = JSON.parse(localStorage.getItem('auth'))
+    if (localStorage.getItem('cart')) {
+      this.products = JSON.parse(localStorage.getItem('cart'))
+    } else {
+      this.router.navigate(['shop'])
+    }
+    for(var k in this.products) {
+      if (this.products[k].user.id == this.userInfo.user_id) {
+        localStorage.removeItem('cart')
+        this.messages = []
+        this.openMessage("You are trying to buy a product that is yours")
+      }
+    }
     this.amount = JSON.parse(localStorage.getItem('amount'))
     this._origin.getOrigins()
     .subscribe(
       res => {
-        console.log(res)
         this.origins = res
-        console.log(this.origins)
         if (this.origins.length > 0) {
           this.destiny = this.origins[0].id
         } else {
           this.initial = true;
         }
-        console.log(this.destiny)
       },
       err => console.log(err)
     )
@@ -50,14 +58,11 @@ export class CheckoutComponent implements OnInit {
     var destinyFinal = this.destiny
     var cart = {} 
     this.products.forEach( function(product, index){
-        console.log(product)
-        console.log(index)
         cart["product"+index] = JSON.stringify({
           product_id: product.id,
           destiny: destinyFinal,
           quantity: product.quantity
         })
-        console.log(cart)
     })
     this._purchase.createPurchase(cart).subscribe(
       res => {{
@@ -67,13 +72,13 @@ export class CheckoutComponent implements OnInit {
         }, 1000);}
       },
       err => {
-        this.openMessage(err)
+        this.openMessageErr(err)
       }
     ) 
 
   }
 
-  openMessage(err) {
+  openMessageErr(err) {
     for (var key in err.error) {
       console.log(key)
       this.messages.push(err.error[key])
@@ -81,8 +86,15 @@ export class CheckoutComponent implements OnInit {
     this.modalMessage = true
   }
 
+  openMessage(str) {
+    this.messages.push(str)
+    this.modalMessage = true
+  }
+
   closeMessage() {
+    this.messages = []
     this.modalMessage = false
+    location.reload()
   }
 
   removeFromCart(i) {

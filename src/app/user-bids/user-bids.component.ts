@@ -12,18 +12,24 @@ export class UserBidsComponent implements OnInit {
 
   bids:any;
   productBids:any;
+  currentUserId:any;
   constructor(private _auth: AuthService, private _product: ProductService, private router: Router) { }
 
   ngOnInit() {
+    this.currentUserId = JSON.parse(localStorage.getItem('auth')).user_id
     this.bids = []
     this._auth.showUserBids().subscribe(
-      res => this.bids = res,
+      res => this.bids = res.bids,
       err => console.log(err)
     )
   }
 
   goToBid(productId) {
     this.router.navigate(['product/' + productId])
+  }
+
+  goToShop(productId) {
+    this.router.navigate(['shop'])
   }
 
 }

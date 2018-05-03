@@ -17,12 +17,20 @@ export class ProductBidsComponent implements OnInit {
   ngOnInit() {
     this.currentProductId = parseInt(this.route.snapshot.paramMap.get('id'))
     this._product.getProductBids(this.currentProductId).subscribe (
-      res => this.bids = res,
+      res => {
+        console.log(res)
+        this.bids = res.bids
+      },
       err => console.log(err)
     )
     
     this._product.getProductPhotos(this.currentProductId).subscribe (
-      res => this.currentProductPhoto = res[0].picture
+      res => {
+        if (res.length != 0) {
+          this.currentProductPhoto = res[0].picture
+        }
+      },
+      err => console.log(err)
     )
   }
   

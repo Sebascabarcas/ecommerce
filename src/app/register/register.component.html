@@ -6,8 +6,7 @@
     <form id="checkout-form" class="clearfix" (ngSubmit)="registerUser()" #registerUserForm="ngForm">
       <div class="col-md-6">
         <div class="billing-details">
-          <p>Already a customer ? {{user | json}} <a href="/login">Login</a></p>
-          <p *ngFor="let user of users">{{user.username}}</p>
+          <p>Already a customer ? <a href="#/login">Login</a></p>
           <div class="section-title">
             <h3 class="title">Register</h3>
           </div>
@@ -16,31 +15,10 @@
           </div>
           <div class="form-group">
             <input id="name" [(ngModel)]="newUser.name" class="form-control input" type="text" name="name" placeholder="name" #name="ngModel" minlength="2" maxlength="20" pattern=".*[^ ].*" required>
-            <!-- <div *ngIf ="name.errors.required"
-             class="alert alert-danger">
-                 Name is required
-            </div> -->
-            <!-- <div *ngIf="name.errors.minlength">
-                Name must be at least 2 characters long.
-            </div> -->
             <div *ngIf="name.invalid"
               class="alert alert-warning">
                 Name must be at least 2 and max 20 characters long.
             </div>
-            
-            <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)"
-                class="alert alert-danger">
-                <div *ngIf="name.errors.required">
-                  Name is required.
-                </div>
-                <div *ngIf="name.errors.minlength">
-                  Name must be at least 4 characters long.
-                </div>
-                <div *ngIf="name.errors.forbiddenName">
-                  Name cannot be Bob.
-                </div>
-
-            </div> -->
           </div>
           <div class="form-group">
             <input id="username" [(ngModel)]="newUser.username" class="form-control input" type="text" name="username" placeholder="username" #username="ngModel" ng-trim="false" pattern="^[a-zA-Z0-9._-]+$" minlength="4" maxlength="20" required>
@@ -83,7 +61,7 @@
             <input [(ngModel)]="newUser.gender" type="radio" name="gender" value="female"> Female<br>
             <input [(ngModel)]="newUser.gender" type="radio" name="gender" value="other"> Other
           </div>
-          <button type="submit" class="btn btn-primary" [disabled]="!registerUserForm.form.valid || !image">Sign in</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!registerUserForm.form.valid">Sign in</button>
         </div>
       </div>
 
@@ -103,9 +81,9 @@
                       </div>
                       <input id="file" type='file' #fileInput class="input-file" [(ngModel)]="newUser.image" name="profile-photo" #profilePhoto="ngModel" (change)="onSelectFile($event)">
                     </div>
-                    <div class="alert alert-warning" *ngIf="!image">
+                    <!-- <div class="alert alert-warning" *ngIf="!image">
                         Profile photo is required.
-                    </div>
+                    </div> -->
                 </div>
             </div>
       </div>

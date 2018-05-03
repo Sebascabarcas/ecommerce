@@ -1,4 +1,8 @@
 <app-navbar></app-navbar>
+<div class="no-info" *ngIf="products.length == 0">
+    <h1>You have no products yet</h1>
+    <button class="btn btn-primary" (click)="goToAddProduct()">Add your first product</button>
+</div>
 <div class="container-fluid container-fluid--my-products" *ngFor="let product of products; let i = index">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -10,11 +14,41 @@
     </div>
       <div class="row">
         <div class="col-md-3">
+
           <div class="panel-body panel-body--user-products">
-            <label for="file{{product.id}}" *ngIf="!product.cover"><i class="fa fa-picture-o fa-size--user-products"></i></label>
-            <img [src]="product.cover.url" height="200" *ngIf="product.cover"> <br/>
-            <label for="file{{product.id}}" class="btn label-file"><i class="fa fa-folder"></i> Browser</label>
-            <input id="file{{product.id}}" type='file' #fileInput class="input-file" (change)="onSelectFile(product.id, $event, i)">
+            <div class="cover-photo col-md-12">
+              <i class="fa fa-close delete-cover" (click)="deletePhotoIcon(product.cover.id)" *ngIf="product.cover"></i> 
+              <label for="file1{{product.id}}" *ngIf="!product.cover"><i class="fa fa-picture-o fa-size--user-products"></i></label>
+              <label for="file1{{product.id}}" *ngIf="product.cover">
+                <img [src]="product.cover.url" height="130">
+              </label>
+            </div>
+               <!-- <br/> -->
+            <!-- <div class="secondary-photos"> -->
+              <div class="secondary-photos col-md-4" *ngFor="let picture of product.product_picture | noCoverImage : product; let j = index">
+                <label for="file{{j+2}}{{product.id}}" *ngIf="product.product_picture.length < j+1"><i class="fa fa-picture-o fa-size--secondary-photos"></i></label>
+                <i class="fa fa-close delete-photo" (click)="deletePhotoIcon(picture.id)" *ngIf="product.product_picture.length > j"></i> 
+                <label for="file{{j+2}}{{product.id}}" *ngIf="product.product_picture.length > j">
+                  <img [src]="picture.picture.url" class="secondary-photo" width="100" height="90">
+                </label>
+                <!-- <input id="file2{{product.id}}" type='file' #fileInput class="input-file" (change)="onSelectFile(product, $event, 1)">
+                  <input id="file3{{product.id}}" type='file' #fileInput class="input-file" (change)="onSelectFile(product, $event, 2)">
+                  <input id="file4{{product.id}}" type='file' #fileInput class="input-file" (change)="onSelectFile(product, $event, 3)"> -->
+                  <input id="file{{j+2}}{{product.id}}" type='file' #fileInput class="input-file" (change)="onSelectFile(product, $event, j+1, picture.id)">
+              </div>
+                <!-- <label for="file3{{product.id}}" *ngIf="product.product_picture[1] && product.cover"><i class="fa fa-picture-o fa-size--secondary-photos"></i></label>
+                <label for="file3{{product.id}}" *ngIf="product.product_picture.length > 2 && product.cover">
+                  <img [src]="product.product_picture[2].picture.url" class="secondary-photo" width="100" height="90"> 
+                </label>
+                <label for="file4{{product.id}}" *ngIf="product.product_picture[2] && product.cover "><i class="fa fa-picture-o fa-size--secondary-photos"></i></label>
+                <label for="file4{{product.id}}" *ngIf="product.product_picture.length > 3 && product.cover">
+                  <img [src]="product.product_picture[3].picture.url" class="secondary-photo" width="100" height="90" > 
+                </label> -->
+            <!-- </div> -->
+            <div class="col-md-12">
+              <label for="file0{{product.id}}" class="btn label-file" *ngIf="!(product.product_picture.length == 4)"><i class="fa fa-folder"></i> Add photo</label>
+            </div>
+            <input id="file0{{product.id}}" type='file' #fileInput class="input-file" (change)="onSelectFile(product, $event, product.product_picture.length, 0)">
             <app-modal-confirm [message]="textModalDelete" (doFunction)="doFunctione($event)" *ngIf="modalDelete"></app-modal-confirm>
             <app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>
             <!-- <label class="btn label-file" *ngIf="url[i]" (click)="uploadCoverPhoto(product.id, url[i])">Upload <i class="fa fa-upload"></i></label> -->
@@ -28,10 +62,10 @@
                 <span>Auction</span>
             </div>
             <div class="product-label product-label--price">
-                <span class="product-price">{{product.price | currency: 'COP '}}</span>
+                <span class="product-price">{{product.price | currency: 'COP ':true:'1.0'}}</span>
             </div>
-            <div class="product-label">
-                <span>{{product.category | titlecase}}</span>
+            <div class="product-label product-label--category">
+                <span>{{product.category | titlecase | categoryDisplay}}</span>
             </div>
             <p><strong>Availability:</strong> In Stock</p>
             <p><strong>Brand:</strong> E-SHOP</p>

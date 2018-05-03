@@ -1,3 +1,47 @@
-<p>
-  admin-view works!
-</p>
+<app-navbar></app-navbar>
+<div class="container-fluid container-fluid--profile">
+  <div class="row">
+    <div class="col-md-6 main-title">
+      <h1>Users</h1>
+    </div>
+    <div class="col-md-6 main-title main-title--products">
+      <h1>Products</h1>
+    </div>
+  </div>
+  <div class="row" >
+    <div class="col-md-2 col-md-offset-2">
+      <div class="users-container">
+        <div class="users-container--inner">
+          <div class="col-md-12" *ngFor="let user of users">
+            <div class="single-user" *ngIf="user.id != currentUserId">
+              <span>
+                <h3>{{user.username}}</h3>
+                <i class="fa fa-unlock fa-2x" (click)="blockUser(user.id)" *ngIf="!user.block"></i>
+                <i class="fa fa-lock fa-2x" (click)="unblockUser(user.id)" *ngIf="user.block"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <hr> -->
+    </div>
+    <div class="col-md-3 col-md-offset-4">
+      <div class="products-container">
+        <div class="products-container--inner">
+          <div class="col-md-12" *ngFor="let product of products">
+            <div class="single-user">
+              <span>
+                <h3>{{product.name}}</h3>
+                <i class="fa fa-unlock fa-2x" (click)="blockProduct(product.id)" *ngIf="!product.product_block && !product.user.block"></i>
+                <i class="fa fa-lock fa-2x" (click)="unblockProduct(product.id)" *ngIf="product.product_block && !product.user.block"></i>
+                <i class="fa fa-lock fa-2x" (click)="noUnblockProduct()" *ngIf="product.user.block"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <hr> -->
+    </div>
+  </div>
+</div>
+<app-modal-message [messages]="messages" (closeModal)="closeMessage()" *ngIf="modalMessage"></app-modal-message>
