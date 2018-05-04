@@ -176,7 +176,7 @@
           <!-- row -->
           <div class="row">
             <!-- Product Single -->
-            <div *ngFor="let product of products | filterJson : minRange : maxRange" class="col-md-4 col-sm-6 col-xs-6">
+            <div *ngFor="let product of products | filterJson : minRange : maxRange" class="col-md-4 col-sm-6 col-xs-6 col-single-product">
               <div class="product product-single">
                 <div class="product-thumb">´
                   <div class="product-label" *ngIf="product.is_auction">

@@ -120,15 +120,20 @@ export class UserProductsComponent implements OnInit {
   }
 
   closeMessage() {
+    this.messages = []
     this.modalMessage = false
     location.reload()
   }
 
-  openMessage(err) {
+  openMessageErr(err) {
     for (var key in err.error) {
-      console.log(key)
       this.messages.push(err.error[key])
     }
+    this.modalMessage = true
+  }
+
+  openMessage(str) {
+    this.messages.push(str)
     this.modalMessage = true
   }
 
@@ -163,18 +168,23 @@ export class UserProductsComponent implements OnInit {
   deletePhoto(photoId) {
     this._product.deletePicture(photoId).subscribe (
       res => {
-        console.log(res)
+        this.openMessage("Photo deleted succesfully")
       },
-      err => console.log(err)
+      err => {
+        this.openMessageErr(err)
+        // this.modalMessage = true
+      }
     )
   }
 
   deletePhotoIcon(photoId) {
     this._product.deletePicture(photoId).subscribe (
       res => {
-        location.reload()
+        this.openMessage("Photo deleted succesfully")
       },
-      err => console.log(err)
+      err => {
+        this.openMessageErr(err)
+      }
     )
   }
   
